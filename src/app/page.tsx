@@ -5,6 +5,7 @@ import Projects from "@/components/projects"
 import SectionDivider from "@/components/section-divider"
 import Experience from "@/components/experience"
 import Contact from "@/components/contact"
+import Footer from "@/components/footer"
 
 export default function Home() {
   return (
