@@ -5,8 +5,6 @@ import {  experimental_useFormStatus as useFormStatus } from 'react-dom';
 export default function SubmitBtn() {
     const { pending } = useFormStatus()
 
-    console.log(pending)
-
   return (
     <button className='group flex items-center justify-center
     gap-2 h-[3rem] w-[8rem] bg-gray-900 text-white

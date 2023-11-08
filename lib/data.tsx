@@ -6,6 +6,7 @@ import bbImg from '../public/budgetbuddy.png'
 import beImg from '../public/BookEnds.jpeg'
 import llImg from '../public/LearnLink.png'
 import ullrImg from '../public/Ullr.png'
+import creedBlog from '../public/CreedThoughts.jpg'
 
 
 export const links = [
@@ -37,28 +38,28 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Graduated bootcamp",
+    title: "Account Executive",
     location: "New York, NY",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
-    icon: React.createElement(LuGraduationCap),
-    date: "2019",
+      " I have been managing and growing a portfolio of over 50 accounts in the orthotic and prosthetic industry for over 12 years. I have developed strong skills in business negotiation, industrial sales, contract management, and customer service, resulting in increased revenue, retention, and satisfaction for my clients and company.",
+    icon: React.createElement(CgWorkAlt),
+    date: "2009 - present",
   },
   {
-    title: "Front-End Developer",
-    location: "Orlando, FL",
+    title: "Flatiron School",
+    location: "New York, NY",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
+      "5-month intensive program where I learned an array of full stack of languages including React, Redux, Ruby, Sinatra, Rails, Javascript, SQL, ActiveRecord, Git, HTML, and CSS.",
+    icon: React.createElement(LuGraduationCap),
+    date: "2022",
   },
   {
     title: "Full-Stack Developer",
-    location: "Houston, TX",
+    location: "New York, NY",
     description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
+      "I'm now a full-stack developer working as a freelancer helping small businesses and working on personal projects. My stack includes React, Next.js, TypeScript, Tailwind, MongoDB, Python, and Flask. I'm open to full-time opportunities.",
     icon: React.createElement(FaReact),
-    date: "2021 - present",
+    date: "2023 - present",
   },
 ] as const;
 
@@ -69,29 +70,42 @@ export const projectsData = [
     title: "LearnLink",
     description:
       "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
+    tags: ["React", "Chakra UI", "Python", "Flask", "Google PaLM AI", "Zustand"],
     imageUrl: llImg,
-  },
-  {
-    title: "BookEnds",
-    description:
-    "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: beImg,
+    repo: "https://github.com/JWehder/Learn-Link"
   },
   {
     title: "Budget Buddy",
     description:
       "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
+    tags: ["React", "Python", "Flask", "Chakra UI", "Framer"],
     imageUrl: bbImg,
+    repo: "https://budgetbuddy-u5el.onrender.com/"
+
   },
   {
-    title: 'Ullr',
+    title: "BookEnds",
+    description:
+    "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
+    tags: ["React", "Ruby on Rails", "PostgreSQL", "Material UI"],
+    imageUrl: beImg,
+    repo: "https://github.com/omgitsmiles/BookEnds"
+  },
+  {
+    title: "Ullr",
     description:
     "fitness tracker app with added social media functionality. Along with added your physical acitivites for you and your friends to see.",
     tags: ["React", "Ruby on Rails", "PostgreSQL", "Material UI"],
     imageUrl: ullrImg,
+    repo: "https://github.com/omgitsmiles/Ullr"
+  },
+  {
+    title: "Creed Thoughts",
+    description:
+    "From the popular show The Office, we take the character Creed Bratton and replicate his Blog for the user.",
+    imageUrl: creedBlog,
+    tags: ["React", "Ruby", "Sinatra"],
+    repo: "https://github.com/omgitsmiles/creed-thoughts-front-end"
   }
 ] as const;
 
@@ -105,14 +119,13 @@ export const skillsData = [
   "Node.js",
   "Git",
   "Tailwind",
-  "Prisma",
+  "Node.js",
+  "Express",
   "MongoDB",
   "Redux",
-  "GraphQL",
-  "Apollo",
-  "Express",
+  "Zustand",
   "PostgreSQL",
   "Python",
-  "Django",
+  "Flask",
   "Framer Motion",
 ] as const;
