@@ -37,7 +37,7 @@ export default function About() {
             spending time with my new born son and family, running, playing video games, and lounging with my dog. I look forward to{" "}
             <span className="font-medium">learning new things</span>. I am currently
             learning about{" "}
-            <span className="font-medium">Next.js version 14 and their partial rendering and deepening my knowledge of React.</span>. I'm also
+            <span className="font-medium">Next.js version 14 and their partial rendering and deepening my knowledge of React.</span> I'm also
             learning how to play the piano.
         </p>
     </motion.section>
