@@ -17,29 +17,28 @@ export default function About() {
     id='about'>
         <SectionHeading>About Me</SectionHeading>
         <p className='mb-3'>
-            After graduating with a degree in{" "}
-            <span className="font-medium">Accounting</span>, I decided to pursue my
+            After 12 years in Account Management in the {" "}
+            <span className="font-medium">health care industry</span>, I decided to pursue my
             passion for programming. I enrolled in a coding bootcamp and learned{" "}
             <span className="font-medium">full-stack web development</span>.{" "}
-            <span className="italic">My favorite part of programming</span> is the
-            problem-solving aspect. I <span className="underline">love</span> the
-            feeling of finally figuring out a solution to a problem. My core stack
+            <span className="italic">I am avid student of web development and continue to learn everyday.</span> The debugging, creative solutions, and collaboration is what I'm enjoying the most. I <span className="underline">love</span> the
+            feeling working together with others to build out creative passion projects. My core stack
             is{" "}
             <span className="font-medium">
-            React, Next.js, Node.js, and MongoDB
+            React, Next.js, Node.js, Python, Flask, Ruby on Rails, and Typescript
             </span>
-            . I am also familiar with TypeScript and Prisma. I am always looking to
+            . I am also familiar with React Native and Java. I am always looking to
             learn new technologies. I am currently looking for a{" "}
             <span className="font-medium">full-time position</span> as a software
             developer.
         </p>
         <p>
             <span className="italic">When I'm not coding</span>, I enjoy playing
-            video games, watching movies, and playing with my dog. I also enjoy{" "}
+            spending time with my new born son and family, running, playing video games, and lounging with my dog. I look forward to{" "}
             <span className="font-medium">learning new things</span>. I am currently
             learning about{" "}
-            <span className="font-medium">history and philosophy</span>. I'm also
-            learning how to play the guitar.
+            <span className="font-medium">Next.js version 14 and their partial rendering and deepening my knowledge of React.</span>. I'm also
+            learning how to play the piano.
         </p>
     </motion.section>
   )
