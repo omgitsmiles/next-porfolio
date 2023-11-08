@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { Resend } from 'resend'
 import { validateString, getErrorMessage } from '../lib/utils'
 import ContactFormEmail from '../email/contact-form-email'
-import emailjs from 'emailjs-com'
 
 const ContactSchema = z.object({
     email: z.string(),
@@ -65,12 +64,3 @@ export const sendEmail = async (formData: FormData) => {
         data,
     }
 }
-
-// emailjs.send(
-//     process.env.EMAIL_JS_SERVICE,
-//     process.env.EMAIL_JS_TEMPLATE,
-//     State,
-//     process.env.EMAIL_JS_USER,
-// ).then({ status }) => {
-//     setForm
-// }
