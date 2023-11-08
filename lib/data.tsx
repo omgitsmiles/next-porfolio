@@ -69,7 +69,7 @@ export const projectsData = [
   {
     title: "LearnLink",
     description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
+      "Porject built at a hackathon with designers and engineers. Built leveraging Google's PaLM AI to make education and course work more accessible.",
     tags: ["React", "Chakra UI", "Python", "Flask", "Google PaLM AI", "Zustand"],
     imageUrl: llImg,
     repo: "https://github.com/JWehder/Learn-Link"
@@ -77,8 +77,8 @@ export const projectsData = [
   {
     title: "Budget Buddy",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "Python", "Flask", "Chakra UI", "Framer"],
+      "Budget Buddy is a user-friendly application designed to help individuals manage their personal finances effectively.",
+    tags: ["React", "Python", "Flask", "Chakra UI", "Framer", "Lottie Animations"],
     imageUrl: bbImg,
     repo: "https://budgetbuddy-u5el.onrender.com/"
 
@@ -86,7 +86,7 @@ export const projectsData = [
   {
     title: "BookEnds",
     description:
-    "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
+    "Taking a simple idea of creating a place for users to share their books and thoughts in one place through BookEnds.",
     tags: ["React", "Ruby on Rails", "PostgreSQL", "Material UI"],
     imageUrl: beImg,
     repo: "https://github.com/omgitsmiles/BookEnds"
@@ -94,7 +94,7 @@ export const projectsData = [
   {
     title: "Ullr",
     description:
-    "fitness tracker app with added social media functionality. Along with added your physical acitivites for you and your friends to see.",
+    "A Fitness tracker app with added social media functionality. Along with added your physical acitivites for you and your friends to see.",
     tags: ["React", "Ruby on Rails", "PostgreSQL", "Material UI"],
     imageUrl: ullrImg,
     repo: "https://github.com/omgitsmiles/Ullr"
