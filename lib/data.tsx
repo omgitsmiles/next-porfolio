@@ -43,7 +43,7 @@ export const experiencesData = [
     description:
       " I have been managing and growing a portfolio of over 50 accounts in the orthotic and prosthetic industry for over 12 years. I have developed strong skills in business negotiation, industrial sales, contract management, and customer service, resulting in increased revenue, retention, and satisfaction for my clients and company.",
     icon: React.createElement(CgWorkAlt),
-    date: "2009 - present",
+    date: "2011 - present",
   },
   {
     title: "Flatiron School",
