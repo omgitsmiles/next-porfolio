@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: '%s | Paolo\'s Portfolio',
     default: 'Paolo\'s Portfolio'
   },
-  description: 'Paolo Alberca fullstack developer',
+  description: 'Paolo Alberca fullstack developer, Paolo Alberca Portfolio',
 }
 
 export default function RootLayout({
