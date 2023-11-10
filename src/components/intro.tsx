@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ProfilePic from '../../public/ProfessionProfilePicture 2.jpeg'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -9,6 +9,7 @@ import { HiDownload } from 'react-icons/hi'
 import { BsArrowRight } from 'react-icons/bs'
 import { BsLinkedin } from 'react-icons/bs'
 import { FaGithubSquare } from 'react-icons/fa'
+import { FaMedium } from 'react-icons/fa6'
 import { useSectionInView } from '../../lib/hooks'
 import { useActiveSectionContext } from '@/context/active-section-context'
 
@@ -86,6 +87,10 @@ export default function Intro() {
             <a className='bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60'
             href='https://github.com/omgitsmiles' target='_blank'>
                 <FaGithubSquare />
+            </a>
+            <a className='bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60'
+            href='https://medium.com/@paolo.alberca' target='_blank'>
+                <FaMedium />
             </a>
         </motion.div>
     </section>
