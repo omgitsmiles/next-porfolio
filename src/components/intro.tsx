@@ -15,7 +15,7 @@ import { useActiveSectionContext } from '@/context/active-section-context'
 
 export default function Intro() {
     const { ref } = useSectionInView('Home', 0.5)
-    const {setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
+    const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
 
   return (
     <section ref={ref} className='mb-28 max-w[45rem] text-center sm:mb-0 scroll-mt-[100rem]'
