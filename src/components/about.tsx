@@ -33,7 +33,7 @@ export default function About() {
         </p>
         <p>
             <span className="italic">When I'm not coding</span>, I enjoy playing
-            spending time with my new born son and family, getting together with friends for runs around NYC, video games, watching movies, and lounging with my dog. I look forward to{" "}
+            spending time with my newborn son and family, getting together with friends for runs around NYC, video games, watching movies, and lounging with my dog. I look forward to{" "}
             <span className="font-medium">learning new things</span>. I am currently
             learning about{" "}
             <span className="font-medium">Next.js 14 and their partial rendering and deepening my knowledge of React.</span>
