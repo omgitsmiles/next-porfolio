@@ -36,7 +36,7 @@ export const sendEmail = async (formData: FormData) => {
 
     if(!validateString(message, 5000)) {
         return {
-            error: "Invlaid message"
+            error: "Invalid message"
         }
     }
 
