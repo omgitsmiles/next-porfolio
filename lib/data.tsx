@@ -70,7 +70,7 @@ export const projectsData = [
   {
     title: "Money Magnet",
     description:
-      "Built during a hackathon, a financial management app that empowering both single users and households to better manage their finances, we integrated cutting-edge technologies like Plaid for account linking and Google’s Gemini AI to offer personalized advice based on transactional trends.",
+      "A financial management app that empowering both single users and households to better manage their finances, integrating Plaid for account linking and Google’s Gemini AI to offer personalized advice based on transactional trends.",
     tags: ["React", "Python", "Material UI", "PostgreSQL", "Plaid API", "Google Gemini AI"],
     imageUrl: moneyMagnet,
     repo: "https://github.com/omgitsmiles/ctrl-your-finances"
