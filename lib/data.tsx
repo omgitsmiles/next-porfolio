@@ -7,6 +7,7 @@ import beImg from '../public/BookEnds.jpeg'
 import llImg from '../public/LearnLink.png'
 import ullrImg from '../public/Ullr.png'
 import creedBlog from '../public/CreedThoughts.jpg'
+import moneyMagnet from '../public/MoneyMagnet.png'
 
 
 export const links = [
@@ -66,6 +67,14 @@ export const experiencesData = [
 // use React.createElement for .ts files. .tsx allows for jsx, .ts doesn't.
 
 export const projectsData = [
+  {
+    title: "Money Magnet",
+    description:
+      "Built during a hackathon, a financial management app that empowering both single users and households to better manage their finances, we integrated cutting-edge technologies like Plaid for account linking and Google’s Gemini AI to offer personalized advice based on transactional trends.",
+    tags: ["React", "Python", "Material UI", "PostgreSQL", "Plaid API", "Google Gemini AI"],
+    imageUrl: moneyMagnet,
+    repo: "https://github.com/omgitsmiles/ctrl-your-finances"
+  },
   {
     title: "LearnLink",
     description:
