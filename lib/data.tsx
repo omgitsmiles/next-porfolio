@@ -2,6 +2,7 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
+import { FaLaptopCode } from "react-icons/fa";
 import bbImg from '../public/budgetbuddy.png'
 import beImg from '../public/BookEnds.jpeg'
 import llImg from '../public/LearnLink.png'
@@ -132,9 +133,11 @@ export const skillsData = [
   "Express",
   "MongoDB",
   "Redux",
+  "Storybook",
   "Zustand",
   "PostgreSQL",
   "Python",
+  "Django",
   "Flask",
   "Framer Motion",
 ] as const;
