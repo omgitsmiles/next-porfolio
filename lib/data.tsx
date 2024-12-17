@@ -2,7 +2,7 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import { FaLaptopCode } from "react-icons/fa";
+import { FaLandmarkFlag } from "react-icons/fa6";
 import bbImg from '../public/budgetbuddy.png'
 import beImg from '../public/BookEnds.jpeg'
 import llImg from '../public/LearnLink.png'
@@ -63,6 +63,14 @@ export const experiencesData = [
     icon: React.createElement(FaReact),
     date: "2023 - present",
   },
+  {
+    title: "Software Engineer @ WeVote",
+    location: "Remote",
+    description:
+      "I'm currently working as a software engineer at WeVote, a non-profit organization that better informs voters. Utilizing React, Python, and Django to help build out the platform.",
+    icon: React.createElement(FaLandmarkFlag),
+    date: "2024 - present",
+  }
 ] as const;
 
 // use React.createElement for .ts files. .tsx allows for jsx, .ts doesn't.
