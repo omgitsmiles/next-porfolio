@@ -12,10 +12,15 @@ import { FaGithubSquare } from 'react-icons/fa'
 import { FaMedium } from 'react-icons/fa6'
 import { useSectionInView } from '../../lib/hooks'
 import { useActiveSectionContext } from '@/context/active-section-context'
+import { ProfileContextProvider, useProfileContext } from '@/context/profile-context'
 
 export default function Intro() {
+    const { profile } = useProfileContext();
     const { ref } = useSectionInView('Home', 0.5)
     const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
+
+    // FastTrack Github API Fetch Req;
+    console.log(profile);
 
   return (
     <section ref={ref} className='mb-28 max-w[45rem] text-center sm:mb-0 scroll-mt-[100rem]'
@@ -31,7 +36,7 @@ export default function Intro() {
                     }}
                     >
                     <Image 
-                    src={ProfilePic}
+                    src={ProfilePic || profile?.avatar_url }
                     alt='Paolos Profile Pic'
                     width='192'
                     height='192'
@@ -63,6 +68,16 @@ export default function Intro() {
           Check out my work and feel free to contact me.
 
         </motion.h1>
+        {/* Github bio description for FastTrack req */}
+        {/* {profile?.bio && (
+            <motion.p className='text-lg mt-4'
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+            >
+                {profile.bio}
+            </motion.p>
+            )} */}
         <motion.div className='flex flex-col sm:flex-row items-center justify-center gap-2 px-4 text-lg font-medium'
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
