@@ -36,7 +36,7 @@ export default function Intro() {
                     }}
                     >
                     <Image 
-                    src={ProfilePic || profile?.avatar_url }
+                    src={ProfilePic || profile?.avatar_url}
                     alt='Paolos Profile Pic'
                     width='192'
                     height='192'
