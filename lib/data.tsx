@@ -38,15 +38,23 @@ export const links = [
   },
 ] as const;
 
-export const experiencesData = [
+export const experiencesData = [    
   {
-    title: "Account Executive",
+    title: "Software Engineer @ WeVote",
+    location: "Remote",
+    description:
+      "I'm currently working as a software engineer at WeVote, a non-profit organization that better informs voters. Utilizing React, Python, and Django to help build out the platform.",
+    icon: React.createElement(FaLandmarkFlag),
+    date: "2024 - present",
+  },
+  {
+    title: "Full-Stack Developer",
     location: "New York, NY",
     description:
-      " I have been managing and growing a portfolio of over 50 accounts in the orthotic and prosthetic industry for over 12 years. I have developed strong skills in business negotiation, industrial sales, contract management, and customer service, resulting in increased revenue, retention, and satisfaction for my clients and company.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2011 - present",
-  },
+      "I'm now a full-stack developer working as a freelancer helping small businesses and working on personal projects. My stack includes React, Next.js, TypeScript, Tailwind, MongoDB, Python, and Flask. I'm open to full-time opportunities.",
+    icon: React.createElement(FaReact),
+    date: "2023 - present",
+  },  
   {
     title: "Flatiron School",
     location: "New York, NY",
@@ -56,21 +64,13 @@ export const experiencesData = [
     date: "2022",
   },
   {
-    title: "Full-Stack Developer",
+    title: "Account Executive",
     location: "New York, NY",
     description:
-      "I'm now a full-stack developer working as a freelancer helping small businesses and working on personal projects. My stack includes React, Next.js, TypeScript, Tailwind, MongoDB, Python, and Flask. I'm open to full-time opportunities.",
-    icon: React.createElement(FaReact),
-    date: "2023 - present",
+      " I have been managing and growing a portfolio of over 50 accounts in the orthotic and prosthetic industry for over 12 years. I have developed strong skills in business negotiation, industrial sales, contract management, and customer service, resulting in increased revenue, retention, and satisfaction for my clients and company.",
+    icon: React.createElement(CgWorkAlt),
+    date: "2011 - present",
   },
-  {
-    title: "Software Engineer @ WeVote",
-    location: "Remote",
-    description:
-      "I'm currently working as a software engineer at WeVote, a non-profit organization that better informs voters. Utilizing React, Python, and Django to help build out the platform.",
-    icon: React.createElement(FaLandmarkFlag),
-    date: "2024 - present",
-  }
 ] as const;
 
 // use React.createElement for .ts files. .tsx allows for jsx, .ts doesn't.
