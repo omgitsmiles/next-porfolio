@@ -37,8 +37,8 @@ export default function RootLayout({
             <ProfileContextProvider>
             <Header /> 
             {children}
-            </ProfileContextProvider>
             <Footer />
+            </ProfileContextProvider>
             <ThemeSwitch />
             <Toaster position='top-right'/>
           </ActiveSectionContextProvider>
