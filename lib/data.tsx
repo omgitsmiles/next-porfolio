@@ -9,6 +9,7 @@ import llImg from '../public/LearnLink.png'
 import ullrImg from '../public/Ullr.png'
 import creedBlog from '../public/CreedThoughts.jpg'
 import moneyMagnet from '../public/MoneyMagnet.png'
+import cookSys from '../public/CookSys.png'
 
 
 export const links = [
@@ -76,6 +77,13 @@ export const experiencesData = [
 // use React.createElement for .ts files. .tsx allows for jsx, .ts doesn't.
 
 export const projectsData = [
+  {
+    title: "CookSys Project Manager",
+    description: "Onboarding tool to track recent hires with their companies and their respective projects on those companies.",
+    tags: ["Angular", "Typescript", "Tailwind", "Java", "Spring Boot", "PostgreSQL"],
+    imageUrl: cookSys,
+    repo: "https://github.com/omgitsmiles/cooksys"
+  },
   {
     title: "Money Magnet",
     description:

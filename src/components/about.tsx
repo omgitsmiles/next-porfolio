@@ -24,7 +24,7 @@ export default function About() {
             <span className="italic">Since graduating, I've immesered myself in web dev and continue to learn everyday!</span> The thrill of debugging, the sweet satisfaction of finding those off-the-beaten-path solutions, and teaming up with fellow code enthusiasts to whip up some <span className="underline">seriously cool</span> passion projects. Web development isn't just a job; it's my playground for creative collaboration. My core stack
             is{" "}
             <span className="font-medium">
-            React, Next.js, Node.js, Python, Flask, Ruby on Rails, and Typescript
+            Angular, React, Next.js, Node.js, Java, Python, Flask, Ruby on Rails, and Typescript
             </span>
             . I am also familiar with React Native and Java. I am always looking to
             learn new technologies. I am currently looking for a{" "}
@@ -36,7 +36,7 @@ export default function About() {
             spending time with my newborn son and family, getting together with friends for runs around NYC, video games, watching movies, and lounging with my dog. I look forward to{" "}
             <span className="font-medium">learning new things</span>. I am currently
             learning about{" "}
-            <span className="font-medium">Next.js 14 and their partial rendering and deepening my knowledge of React.</span>
+            <span className="font-medium">Java and Spring Boot, and building applications with these technologies</span>
         </p>
     </motion.section>
   )
