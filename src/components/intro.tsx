@@ -64,7 +64,7 @@ export default function Intro() {
         >
           <span className='font-bold'>My name's Paolo, welcome to my portfolio!</span>{" "}
            I'm a <span className='font-bold'> fullstack developer </span>
-           proficient in <span className='italic'> React.js, Typescript, HTML, CSS, Ruby on Rails, Python, & PostgreSQL.</span> I love working on projects of any kind and open to freelance work! 
+           proficient in <span className='italic'> React.js, Angular, Typescript, Java, Spring Boot, Ruby on Rails, Python, Django, Flask & PostgreSQL.</span> I love working on projects of any kind and open to freelance work! 
           Check out my work and feel free to contact me.
 
         </motion.h1>
