@@ -82,7 +82,7 @@ export const projectsData = [
     description: "Onboarding tool to track recent hires with their companies and their respective projects on those companies.",
     tags: ["Angular", "Typescript", "Tailwind", "Java", "Spring Boot", "PostgreSQL"],
     imageUrl: cookSys,
-    repo: "https://github.com/omgitsmiles/cooksys"
+    repo: "https://cooksys.onrender.com"
   },
   {
     title: "Money Magnet",
