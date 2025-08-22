@@ -1,6 +1,6 @@
 import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
-import { FaReact } from "react-icons/fa";
+import { FaBuilding, FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
 import { FaLandmarkFlag } from "react-icons/fa6";
 import bbImg from '../public/budgetbuddy.png'
@@ -41,12 +41,19 @@ export const links = [
 
 export const experiencesData = [    
   {
+    title: "Software Engineer @ JPMorganChase",
+    location: "New York",
+    description: "Full Stack developer working in CCB LOB on Chase Offer products using Java, Spring Boot, React.",
+    icon: React.createElement(FaBuilding),
+    date: "2025 - present",
+  },
+  {
     title: "Software Engineer @ WeVote",
     location: "Remote",
     description:
       "I'm currently working as a software engineer at WeVote, a non-profit organization that better informs voters. Utilizing React, Python, and Django to help build out the platform.",
     icon: React.createElement(FaLandmarkFlag),
-    date: "2024 - present",
+    date: "2024 - 2025",
   },
   {
     title: "Full-Stack Developer",
@@ -70,7 +77,7 @@ export const experiencesData = [
     description:
       " I have been managing and growing a portfolio of over 50 accounts in the orthotic and prosthetic industry for over 12 years. I have developed strong skills in business negotiation, industrial sales, contract management, and customer service, resulting in increased revenue, retention, and satisfaction for my clients and company.",
     icon: React.createElement(CgWorkAlt),
-    date: "2011 - present",
+    date: "2011 - 2025",
   },
 ] as const;
 
