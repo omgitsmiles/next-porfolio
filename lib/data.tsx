@@ -42,7 +42,7 @@ export const links = [
 export const experiencesData = [    
   {
     title: "Software Engineer @ JPMorganChase",
-    location: "New York",
+    location: "New York, NY",
     description: "Full Stack developer working in CCB LOB on Chase Offer products using Java, Spring Boot, React.",
     icon: React.createElement(FaBuilding),
     date: "2025 - present",
