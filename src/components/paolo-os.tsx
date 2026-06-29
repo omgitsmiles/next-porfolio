@@ -226,13 +226,17 @@ function Win({ w, onFront, onToggle, onClose, onMove, children }: WinProps) {
 }
 
 // ── About ─────────────────────────────────────────────────────────────────────
-function About() {
+function Divider({ label }: { label: string }) {
   const C = useC();
-  const Divider = ({ label }: { label: string }) => (
+  return (
     <div style={{ color: C.amber, fontSize: 11, letterSpacing: "0.07em", margin: "18px 0 10px" }}>
       ── {label} {Array(Math.max(0, 38 - label.length)).fill("─").join("")}
     </div>
   );
+}
+
+function About() {
+  const C = useC();
 
   const meta = [
     ["name",     "Paolo Alberca"],
@@ -387,7 +391,7 @@ function Snake() {
 
   const startOrRestart = useCallback(() => {
     setG(prev => prev.dead ? init() : { ...prev, started: true });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleKey = useCallback((e: React.KeyboardEvent) => {
     const k = e.key;
@@ -1197,6 +1201,7 @@ function Clock() {
   const C = useC();
   const [t, setT] = useState<Date | null>(null);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setT(new Date());
     const id = setInterval(() => setT(new Date()), 1000);
     return () => clearInterval(id);
