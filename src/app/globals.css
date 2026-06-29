@@ -1,17 +1,17 @@
 @tailwind base;
-@tailwind components;
 @tailwind utilities;
 
-html {
-    --line-color: #e5e7eb;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-html.dark {
-    --line-color: rgba(255, 255, 255, .2)
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
-
-.borderBlack {
-    @apply border border-black/10;
+button {
+  font-family: inherit;
 }
-

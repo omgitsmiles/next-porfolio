@@ -1,64 +1,34 @@
 'use server'
 import React from 'react'
-import { z } from 'zod'
 import { Resend } from 'resend'
 import { validateString, getErrorMessage } from '../lib/utils'
 import ContactFormEmail from '../email/contact-form-email'
 
-const ContactSchema = z.object({
-    email: z.string(),
-    message: z.string(),
-})
-
-export type State = {
-    errors?: {
-        email: string[],
-        message: string[],
-    },
-    message?: string | null
-}
-
-const parsedData = ContactSchema.safeParse(FormData)
-
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const sendEmail = async (formData: FormData) => {
-    const message = formData.get('message')
     const senderEmail = formData.get('senderEmail')
+    const subject     = formData.get('subject')
+    const message     = formData.get('message')
 
-    if (!validateString(senderEmail, 500)) {
-        return {
-            error: "Invalid sender email"
-        }
-    }
+    if (!validateString(senderEmail, 500)) return { error: "Invalid sender email" }
+    if (!validateString(subject, 200))     return { error: "Subject is required" }
+    if (!validateString(message, 5000))    return { error: "Message is required" }
 
-    if(!validateString(message, 5000)) {
-        return {
-            error: "Invalid message"
-        }
-    }
-
-    let data;
-    
     try {
-        data = await resend.emails.send({
-            from: 'Resend <onboarding@resend.dev>',
+        const data = await resend.emails.send({
+            from: 'Portfolio <onboarding@resend.dev>',
             to: 'paolo.alberca@gmail.com',
-            subject: "Message",
+            subject: subject as string,
             reply_to: senderEmail as string,
-            text: message as string,
             react: React.createElement(ContactFormEmail, {
-                message: message as string,
-                senderEmail: senderEmail as string 
-            })
-
+                message:     message as string,
+                senderEmail: senderEmail as string,
+                subject:     subject as string,
+            }),
         })
+        return { data }
     } catch (error: unknown) {
-        return {
-            error: getErrorMessage(error)
-        }
-    }
-    return {
-        data,
+        return { error: getErrorMessage(error) }
     }
 }
