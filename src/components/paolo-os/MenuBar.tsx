@@ -1,16 +1,18 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-import { useC, MONO } from "./theme";
+import { Palette } from "lucide-react";
+import { useC, MONO, THEMES, THEME_KEYS, type ThemeName } from "./theme";
 import { useUI } from "./hooks";
+import { WINDOW_ICONS } from "./icons";
 import type { WinState } from "./types";
 
 const MENU_WINDOWS = [
-  { id: "terminal", icon: "⬛", label: "Terminal" },
-  { id: "about",    icon: "📝", label: "About"    },
-  { id: "projects", icon: "📁", label: "Projects" },
-  { id: "contact",  icon: "💬", label: "Contact"  },
-  { id: "snake",    icon: "🐍", label: "Snake"    },
+  { id: "terminal", label: "Terminal" },
+  { id: "about",    label: "About"    },
+  { id: "projects", label: "Projects" },
+  { id: "contact",  label: "Contact"  },
+  { id: "snake",    label: "Snake"    },
 ];
 
 const HELP_COMMANDS = [
@@ -62,11 +64,11 @@ type MenuBarProps = {
   close: (id: string) => void;
   toggle: (id: string) => void;
   reset: () => void;
-  isDark: boolean;
-  onToggleTheme: () => void;
+  theme: ThemeName;
+  onSetTheme: (t: ThemeName) => void;
 };
 
-export function MenuBar({ wins, open, close, toggle, reset, isDark, onToggleTheme }: MenuBarProps) {
+export function MenuBar({ wins, open, close, toggle, reset, theme, onSetTheme }: MenuBarProps) {
   const C = useC();
   const { isMobile } = useUI();
   const [active, setActive] = useState<string | null>(null);
@@ -122,11 +124,23 @@ export function MenuBar({ wins, open, close, toggle, reset, isDark, onToggleThem
           <div style={{ position: "relative" }}>
             {label("File")}
             {active === "File" && (
-              <div style={{ ...dd, minWidth: 180 }}>
+              <div style={{ ...dd, minWidth: 180, animation: "dropdown-in 0.12s ease" }}>
                 <div style={{ padding: "4px 18px 2px", fontSize: 10, color: C.textFaint, letterSpacing: "0.07em" }}>OPEN WINDOW</div>
-                {MENU_WINDOWS.map(w => (
-                  <DItem key={w.id} label={`${w.icon}  ${w.label}`} onClick={dismiss(() => open(w.id))} />
-                ))}
+                {MENU_WINDOWS.map(w => {
+                  const Icon = WINDOW_ICONS[w.id];
+                  return (
+                    <div
+                      key={w.id}
+                      onClick={dismiss(() => open(w.id))}
+                      style={{ padding: "5px 18px", fontSize: 11, color: C.text, cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 8 }}
+                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(128,100,50,0.12)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                    >
+                      {Icon && <Icon size={12} strokeWidth={1.5} color={C.textDim} />}
+                      {w.label}
+                    </div>
+                  );
+                })}
                 <DSep />
                 <DItem label="Close All Windows" onClick={dismiss(() => openWins.forEach(w => close(w.id)))} faint />
               </div>
@@ -136,11 +150,25 @@ export function MenuBar({ wins, open, close, toggle, reset, isDark, onToggleThem
           <div style={{ position: "relative" }}>
             {label("View")}
             {active === "View" && (
-              <div style={{ ...dd, minWidth: 170 }}>
+              <div style={{ ...dd, minWidth: 190, animation: "dropdown-in 0.12s ease" }}>
                 <DItem label="Minimize All" onClick={dismiss(() => notMinimized.forEach(w => toggle(w.id)))} faint={notMinimized.length === 0} />
-                <DItem label="Restore All" onClick={dismiss(() => minimized.forEach(w => toggle(w.id)))} faint={minimized.length === 0} />
+                <DItem label="Restore All"  onClick={dismiss(() => minimized.forEach(w => toggle(w.id)))}  faint={minimized.length === 0} />
                 <DSep />
                 <DItem label="Reset Layout" onClick={dismiss(reset)} />
+                <DSep />
+                <div style={{ padding: "4px 18px 2px", fontSize: 10, color: C.textFaint, letterSpacing: "0.07em" }}>THEME</div>
+                {THEME_KEYS.map(key => (
+                  <div
+                    key={key}
+                    onClick={dismiss(() => onSetTheme(key))}
+                    style={{ padding: "5px 18px", fontSize: 11, color: theme === key ? C.amber : C.text, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}
+                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(128,100,50,0.12)")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                  >
+                    {THEMES[key].name}
+                    {theme === key && <span style={{ color: C.amber, fontSize: 10 }}>✓</span>}
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -148,7 +176,7 @@ export function MenuBar({ wins, open, close, toggle, reset, isDark, onToggleThem
           <div style={{ position: "relative" }}>
             {label("Help")}
             {active === "Help" && (
-              <div style={{ ...dd, minWidth: 200 }}>
+              <div style={{ ...dd, minWidth: 200, animation: "dropdown-in 0.12s ease" }}>
                 <div style={{ padding: "4px 18px 2px", fontSize: 10, color: C.textFaint, letterSpacing: "0.07em" }}>COMMAND REFERENCE</div>
                 {HELP_COMMANDS.map(cmd => (
                   <div key={cmd} style={{ padding: "2px 18px", fontSize: 11, color: C.textDim, fontFamily: MONO }}>{cmd}</div>
@@ -163,15 +191,16 @@ export function MenuBar({ wins, open, close, toggle, reset, isDark, onToggleThem
 
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
         <button
-          onClick={onToggleTheme}
-          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          onClick={() => onSetTheme(THEME_KEYS[(THEME_KEYS.indexOf(theme) + 1) % THEME_KEYS.length])}
+          title={`Theme: ${THEMES[theme].name} — click to cycle`}
           style={{
             background: "none", border: "none", cursor: "pointer",
-            fontSize: 14, lineHeight: 1, padding: "2px 4px", borderRadius: 4,
-            color: C.textDim,
+            lineHeight: 1, padding: "2px 6px", borderRadius: 4,
+            color: C.amber, display: "flex", alignItems: "center", gap: 5,
           }}
         >
-          {isDark ? "☀️" : "🌙"}
+          <Palette size={13} strokeWidth={1.5} />
+          <span style={{ fontFamily: MONO, fontSize: 10 }}>{THEMES[theme].name}</span>
         </button>
         <span style={{ fontSize: 11, color: C.textFaint }}>guest</span>
         <Clock />

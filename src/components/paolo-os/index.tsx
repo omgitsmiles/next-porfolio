@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from "react";
-import { CContext, DARK, LIGHT, MONO, useC } from "./theme";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { CContext, THEMES, MONO, useC, type ThemeName } from "./theme";
 import { UICtx, useWindowSize, useWM } from "./hooks";
+import { WINDOW_ICONS } from "./icons";
 import { Win } from "./Win";
 import { About } from "./About";
 import { Snake } from "./Snake";
@@ -11,48 +12,100 @@ import { Projects } from "./Projects";
 import { Contact } from "./Contact";
 import { MenuBar } from "./MenuBar";
 import type { WinState } from "./types";
+import type { LucideIcon } from "lucide-react";
 
-function DIcon({ icon, label, onDblClick }: { icon: string; label: string; onDblClick: () => void }) {
-  const C = useC();
+type DIconProps = {
+  Icon: LucideIcon;
+  label: string;
+  x: number;
+  y: number;
+  onDblClick: () => void;
+  onMove: (x: number, y: number) => void;
+};
+
+function DIcon({ Icon, label, x, y, onDblClick, onMove }: DIconProps) {
+  const C        = useC();
   const [h, setH] = useState(false);
+  const dragging  = useRef(false);
+  const origin    = useRef<{ mx: number; my: number; ix: number; iy: number } | null>(null);
+
+  const onMD = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    origin.current  = { mx: e.clientX, my: e.clientY, ix: x, iy: y };
+    dragging.current = false;
+  };
+
+  useEffect(() => {
+    const mm = (e: MouseEvent) => {
+      if (!origin.current) return;
+      const dx = e.clientX - origin.current.mx;
+      const dy = e.clientY - origin.current.my;
+      if (!dragging.current && Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      dragging.current = true;
+      onMove(origin.current.ix + dx, origin.current.iy + dy);
+    };
+    const mu = () => { origin.current = null; dragging.current = false; };
+    window.addEventListener("mousemove", mm);
+    window.addEventListener("mouseup", mu);
+    return () => {
+      window.removeEventListener("mousemove", mm);
+      window.removeEventListener("mouseup", mu);
+    };
+  }, [onMove]);
+
   return (
     <div
+      onMouseDown={onMD}
       onDoubleClick={onDblClick}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       style={{
+        position: "absolute", left: x, top: y,
         display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
-        padding: "8px 12px", borderRadius: 6, cursor: "default",
+        padding: "8px 12px", borderRadius: 6,
+        cursor: dragging.current ? "grabbing" : "default",
         background: h ? "rgba(255,179,71,0.1)" : "transparent",
-        userSelect: "none", width: 80, textAlign: "center", transition: "background 0.15s ease",
+        userSelect: "none", width: 80, textAlign: "center",
+        transition: "background 0.15s ease, transform 0.15s ease",
+        transform: h && !dragging.current ? "scale(1.1)" : "scale(1)",
+        zIndex: 1,
       }}
     >
-      <span style={{ fontSize: 26 }}>{icon}</span>
+      <Icon size={28} strokeWidth={1.5} color={h ? C.amber : C.text} />
       <span style={{ fontFamily: MONO, fontSize: 10, color: C.text, lineHeight: 1.3 }}>{label}</span>
     </div>
   );
 }
 
 const INIT_WINS: WinState[] = [
-  { id: "terminal", title: "terminal — bash", icon: "⬛", x: 60,  y: 55,  width: 600, height: 420, z: 105, closed: false, minimized: false },
-  { id: "projects", title: "projects/",       icon: "📁", x: 680, y: 55,  width: 460, height: 500, z: 104, closed: true,  minimized: false },
-  { id: "about",    title: "about.md",        icon: "📝", x: 680, y: 55,  width: 460, height: 500, z: 103, closed: false, minimized: false },
-  { id: "contact",  title: "contact.sh",      icon: "💬", x: 680, y: 570, width: 360, height: 420, z: 102, closed: true,  minimized: false },
-  { id: "snake",    title: "snake",           icon: "🐍", x: 200, y: 120, width: 540, height: 380, z: 101, closed: true,  minimized: false },
+  { id: "terminal", title: "terminal — bash", x: 60,  y: 55,  width: 600, height: 420, z: 105, closed: false, minimized: false },
+  { id: "projects", title: "projects/",       x: 680, y: 55,  width: 460, height: 500, z: 104, closed: true,  minimized: false },
+  { id: "about",    title: "about.md",        x: 680, y: 55,  width: 460, height: 500, z: 103, closed: false, minimized: false },
+  { id: "contact",  title: "contact.sh",      x: 680, y: 570, width: 360, height: 420, z: 102, closed: true,  minimized: false },
+  { id: "snake",    title: "snake",           x: 200, y: 120, width: 540, height: 380, z: 101, closed: true,  minimized: false },
 ];
 
 const DOCK = [
-  { id: "terminal", icon: "⬛", label: "terminal"  },
-  { id: "projects", icon: "📁", label: "projects/" },
-  { id: "about",    icon: "📝", label: "about.md"  },
-  { id: "contact",  icon: "💬", label: "contact"   },
-  { id: "snake",    icon: "🐍", label: "snake"     },
+  { id: "terminal", label: "terminal"  },
+  { id: "projects", label: "projects/" },
+  { id: "about",    label: "about.md"  },
+  { id: "contact",  label: "contact"   },
+  { id: "snake",    label: "snake"     },
 ];
 
+const ICON_INIT_POS: Record<string, { x: number; y: number }> = {
+  terminal: { x: 16, y: 44  },
+  projects: { x: 16, y: 128 },
+  about:    { x: 16, y: 212 },
+  contact:  { x: 16, y: 296 },
+  snake:    { x: 16, y: 380 },
+};
+
 export default function PaoloOS() {
-  const [isDark, setIsDark] = useState(true);
-  const palette = isDark ? DARK : LIGHT;
-  const { isMobile } = useWindowSize();
+  const [theme, setTheme]     = useState<ThemeName>("sonoma");
+  const palette                = THEMES[theme];
+  const { isMobile }           = useWindowSize();
+  const [iconPos, setIconPos]  = useState(ICON_INIT_POS);
 
   const { wins, front, toggle, close, open, move, reset } = useWM(INIT_WINS);
 
@@ -60,6 +113,15 @@ export default function PaoloOS() {
     const map: Record<string, string> = { projects: "projects", about: "about", contact: "contact", snake: "snake" };
     if (map[target]) open(map[target]);
   };
+
+  const handleReset = () => {
+    reset();
+    setIconPos(ICON_INIT_POS);
+  };
+
+  const moveIcon = useCallback((id: string, x: number, y: number) => {
+    setIconPos(p => ({ ...p, [id]: { x, y } }));
+  }, []);
 
   const taskbar = wins.filter(w => !w.closed);
   const C = palette;
@@ -76,17 +138,25 @@ export default function PaoloOS() {
           transition: "background-color 0.3s ease",
         }}>
           <MenuBar
-            wins={wins} open={open} close={close} toggle={toggle} reset={reset}
-            isDark={isDark} onToggleTheme={() => setIsDark(d => !d)}
+            wins={wins} open={open} close={close} toggle={toggle} reset={handleReset}
+            theme={theme} onSetTheme={setTheme}
           />
 
-          {!isMobile && (
-            <div style={{ position: "absolute", top: 44, left: 16, display: "flex", flexDirection: "column", gap: 4, zIndex: 1 }}>
-              {DOCK.map(d => (
-                <DIcon key={d.id} icon={d.icon} label={d.label} onDblClick={() => open(d.id)} />
-              ))}
-            </div>
-          )}
+          {!isMobile && DOCK.map(d => {
+            const Icon = WINDOW_ICONS[d.id];
+            const pos  = iconPos[d.id];
+            return (
+              <DIcon
+                key={d.id}
+                Icon={Icon}
+                label={d.label}
+                x={pos.x}
+                y={pos.y}
+                onDblClick={() => open(d.id)}
+                onMove={(x, y) => moveIcon(d.id, x, y)}
+              />
+            );
+          })}
 
           {wins.map(w => {
             const content =
@@ -114,14 +184,15 @@ export default function PaoloOS() {
           }}>
             {isMobile
               ? DOCK.map(d => {
-                  const w = wins.find(x => x.id === d.id)!;
+                  const w      = wins.find(x => x.id === d.id)!;
+                  const Icon   = WINDOW_ICONS[d.id];
                   const isActive = !w.closed && !w.minimized;
                   return (
                     <button
                       key={d.id}
                       onClick={() => {
-                        if (w.closed) { open(d.id); return; }
-                        if (w.minimized) { toggle(d.id); return; }
+                        if (w.closed)     { open(d.id);   return; }
+                        if (w.minimized)  { toggle(d.id); return; }
                         front(d.id);
                       }}
                       style={{
@@ -133,7 +204,7 @@ export default function PaoloOS() {
                         gap: 2, transition: "all 0.15s ease",
                       }}
                     >
-                      <span style={{ fontSize: 18 }}>{d.icon}</span>
+                      <Icon size={18} strokeWidth={1.5} color={isActive ? C.amber : C.textFaint} />
                       <span style={{ fontFamily: MONO, fontSize: 8, color: isActive ? C.amber : C.textFaint, lineHeight: 1 }}>
                         {d.label.replace("/", "").replace(".md", "").replace(".sh", "")}
                       </span>
@@ -141,23 +212,27 @@ export default function PaoloOS() {
                   );
                 })
               : <>
-                  {taskbar.map(w => (
-                    <button
-                      key={w.id}
-                      onClick={() => w.minimized ? toggle(w.id) : front(w.id)}
-                      style={{
-                        background: w.minimized ? "rgba(128,100,50,0.06)" : "rgba(128,100,50,0.16)",
-                        border: `1px solid ${w.minimized ? C.border : C.amberDim}`,
-                        borderRadius: 4, padding: "4px 12px",
-                        color: w.minimized ? C.textDim : C.amber,
-                        fontFamily: MONO, fontSize: 11, cursor: "pointer",
-                        display: "flex", alignItems: "center", gap: 6,
-                        transition: "all 0.15s ease",
-                      }}
-                    >
-                      {w.icon} {w.title}
-                    </button>
-                  ))}
+                  {taskbar.map(w => {
+                    const Icon = WINDOW_ICONS[w.id];
+                    return (
+                      <button
+                        key={w.id}
+                        onClick={() => w.minimized ? toggle(w.id) : front(w.id)}
+                        style={{
+                          background: w.minimized ? "rgba(128,100,50,0.06)" : "rgba(128,100,50,0.16)",
+                          border: `1px solid ${w.minimized ? C.border : C.amberDim}`,
+                          borderRadius: 4, padding: "4px 12px",
+                          color: w.minimized ? C.textDim : C.amber,
+                          fontFamily: MONO, fontSize: 11, cursor: "pointer",
+                          display: "flex", alignItems: "center", gap: 6,
+                          transition: "all 0.15s ease",
+                        }}
+                      >
+                        {Icon && <Icon size={12} strokeWidth={1.5} />}
+                        {w.title}
+                      </button>
+                    );
+                  })}
                   <div style={{ marginLeft: "auto", fontSize: 10, color: C.textFaint, whiteSpace: "nowrap" }}>
                     dbl-click icons to open · drag titlebars to move · type &apos;help&apos; in terminal
                   </div>

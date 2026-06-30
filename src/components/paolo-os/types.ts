@@ -3,7 +3,6 @@ import { projectsData } from "../../../lib/data";
 export type WinState = {
   id: string;
   title: string;
-  icon: string;
   x: number;
   y: number;
   width: number;

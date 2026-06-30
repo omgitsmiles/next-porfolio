@@ -7,7 +7,8 @@ import type { ProjectData } from "./types";
 
 export function Projects() {
   const C = useC();
-  const [active, setActive] = useState<ProjectData | null>(null);
+  const [active, setActive]   = useState<ProjectData | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <div style={{
@@ -20,16 +21,21 @@ export function Projects() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
           {projectsData.map((p, i) => {
-            const isActive = active?.title === p.title;
+            const isActive  = active?.title === p.title;
+            const isHovered = hovered === i;
             return (
               <div
                 key={i}
                 onClick={() => setActive(isActive ? null : p as ProjectData)}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
                 style={{
                   position: "relative", overflow: "hidden",
-                  border: `1px solid ${isActive ? C.amber : C.border}`,
+                  border: `1px solid ${isActive ? C.amber : isHovered ? C.amberDim : C.border}`,
                   borderRadius: 4, padding: "10px 12px", cursor: "pointer",
-                  transition: "border-color 0.15s ease",
+                  transition: "border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease",
+                  transform: isHovered && !isActive ? "translateY(-2px)" : "translateY(0)",
+                  boxShadow: isHovered && !isActive ? "0 6px 20px rgba(0,0,0,0.35)" : "none",
                   minHeight: 68,
                 }}
               >

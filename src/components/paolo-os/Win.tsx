@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { useC, MONO } from "./theme";
 import { useUI } from "./hooks";
+import { WINDOW_ICONS } from "./icons";
 import type { WinState } from "./types";
 
 type WinProps = {
@@ -60,6 +61,7 @@ export function Win({ w, onFront, onToggle, onClose, onMove, children }: WinProp
         display: "flex", flexDirection: "column",
         border: `1px solid ${C.border}`, borderRadius: 6, overflow: "hidden",
         boxShadow: "0 24px 64px rgba(0,0,0,0.75)", background: C.win, userSelect: "none",
+        animation: "win-open 0.18s ease",
         ...mobileStyle,
       }}
     >
@@ -84,8 +86,9 @@ export function Win({ w, onFront, onToggle, onClose, onMove, children }: WinProp
           />
           <div style={{ width: 13, height: 13, borderRadius: "50%", background: C.border }} />
         </div>
-        <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: "0.04em" }}>
-          {w.icon} {w.title}
+        <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: "0.04em", display: "flex", alignItems: "center", gap: 6 }}>
+          {(() => { const Icon = WINDOW_ICONS[w.id]; return Icon ? <Icon size={12} strokeWidth={1.5} /> : null; })()}
+          {w.title}
         </span>
       </div>
       <div style={{

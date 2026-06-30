@@ -106,7 +106,7 @@ export function Contact() {
         <div style={{
           position: "absolute", inset: 0, background: C.win,
           padding: "16px 18px", display: "flex", flexDirection: "column",
-          zIndex: 10,
+          zIndex: 10, animation: "slide-up 0.2s ease",
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
             <span style={{ color: C.amber, fontSize: 11, letterSpacing: "0.1em" }}>compose.sh</span>
