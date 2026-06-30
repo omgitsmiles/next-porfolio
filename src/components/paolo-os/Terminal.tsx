@@ -17,6 +17,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
     { t: "cmd", v: "  open snake    → launch snake 🐍" },
     { t: "cmd", v: "  skills        → print skill list" },
     { t: "cmd", v: "  neofetch      → system info" },
+    { t: "cmd", v: "  ai <question> → ask the AI" },
     { t: "cmd", v: "  clear         → clear terminal" },
   ],
   whoami: () => [
@@ -92,10 +93,96 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
   ],
 };
 
-export function Terminal({ onOpen }: { onOpen: (target: string) => void }) {
+const ALL_CMDS = [
+  ...Object.keys(COMMANDS),
+  "open resume", "open about", "open projects", "open contact", "open snake",
+  "clear", "vim about.txt", "ai",
+];
+
+function getAiResponse(q: string): HistoryItem[] {
+  const lq = q.toLowerCase();
+
+  if (!q) return [
+    { t: "cyan", v: "PaoloOS AI v1.2" },
+    { t: "dim",  v: "Ask me something. Try: ai who is paolo" },
+  ];
+
+  if (/who|yourself|are you/.test(lq)) return [
+    { t: "cyan", v: "I'm PaoloOS — Paolo's portfolio AI." },
+    { t: "text", v: "Built to help you explore this terminal OS." },
+    { t: "dim",  v: "Try: ai tell me about paolo" },
+  ];
+
+  if (/about|tell|paolo|background/.test(lq)) return [
+    { t: "amber", v: "Paolo Alberca" },
+    { t: "text",  v: "Software Engineer based in New York, NY." },
+    { t: "dim",   v: "Former healthcare sales rep turned full-stack engineer." },
+    { t: "dim",   v: "Volunteer tech interviewer at NYC Tech Talent Pipeline." },
+    { t: "dim",   v: "Currently at JPMorgan Chase. Previously at WeVote." },
+    { t: "dim",   v: "Run 'whoami' or 'cat resume' for more." },
+  ];
+
+  if (/skill|tech|stack|know|language|framework/.test(lq)) return [
+    ...COMMANDS.skills(),
+  ];
+
+  if (/experience|work|job|career|history|employ/.test(lq)) return [
+    { t: "amber", v: "EXPERIENCE" },
+    { t: "green", v: "Software Engineer — JPMorgan Chase (Apr 2025–present)" },
+    { t: "text",  v: "  Data pipelines, Gremlin chaos engineering, Kafka" },
+    { t: "green", v: "Software Engineer — WeVote (Jul 2024–Feb 2025)" },
+    { t: "text",  v: "  DB optimization, Material UI, Storybook" },
+    { t: "dim",   v: "  Run 'cat resume' for the full picture." },
+  ];
+
+  if (/contact|hire|reach|email|available/.test(lq)) return [
+    { t: "cyan",  v: "Contact Paolo" },
+    { t: "amber", v: "  email    → paolo.alberca@gmail.com" },
+    { t: "amber", v: "  linkedin → paolo-alberca" },
+    { t: "dim",   v: "  Or: open contact" },
+  ];
+
+  if (/project|build|made|portfolio|code/.test(lq)) return [
+    { t: "cyan", v: "Projects" },
+    { t: "text", v: "  Browse all work in the projects window." },
+    { t: "dim",  v: "  → open projects" },
+  ];
+
+  if (/snake|game|play|fun/.test(lq)) return [
+    { t: "cyan",  v: "PaoloOS Snake" },
+    { t: "text",  v: "  Arrow keys to move · Space to start." },
+    { t: "green", v: "  → open snake" },
+  ];
+
+  if (/theme|color|dark|light|wallpaper/.test(lq)) return [
+    { t: "cyan", v: "Themes" },
+    { t: "text", v: "  Sonoma · Monterey · Big Sur · Mojave" },
+    { t: "dim",  v: "  Palette icon in the menu bar — or right-click desktop." },
+  ];
+
+  if (/hello|hi|hey|sup|yo/.test(lq)) return [
+    { t: "cyan", v: "Hey there!" },
+    { t: "text", v: "  Welcome to PaoloOS." },
+    { t: "dim",  v: "  Try: ai tell me about paolo" },
+  ];
+
+  if (/education|school|degree|study/.test(lq)) return [
+    { t: "amber", v: "EDUCATION" },
+    { t: "text",  v: "  Flatiron School — Full Stack Web Dev (2022)" },
+    { t: "text",  v: "  SUNY Stony Brook — B.S. Health Science" },
+    { t: "dim",   v: "  Made the jump from healthcare sales to engineering." },
+  ];
+
+  return [
+    { t: "red",  v: `  Unknown: "${q}"` },
+    { t: "dim",  v: "  Try: skills · experience · contact · projects · education" },
+  ];
+}
+
+export function Terminal({ onOpen, ready }: { onOpen: (target: string) => void; ready?: boolean }) {
   const C = useC();
   const [history, setHistory] = useState<HistoryItem[]>([
-    { t: "amber", v: "PaoloOS Terminal v1.1" },
+    { t: "amber", v: "PaoloOS Terminal v1.2" },
     { t: "dim",   v: "Type 'help' to get started." },
     { t: "text",  v: "" },
   ]);
@@ -108,6 +195,7 @@ export function Terminal({ onOpen }: { onOpen: (target: string) => void }) {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [history]);
 
   useEffect(() => {
+    if (!ready) return;
     const text = "skills";
     const timers: ReturnType<typeof setTimeout>[] = [];
     timers.push(setTimeout(() => {
@@ -134,7 +222,7 @@ export function Terminal({ onOpen }: { onOpen: (target: string) => void }) {
       type();
     }, 700));
     return () => timers.forEach(clearTimeout);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const run = useCallback((raw: string) => {
     const cmd    = raw.trim().toLowerCase();
@@ -160,6 +248,11 @@ export function Terminal({ onOpen }: { onOpen: (target: string) => void }) {
       setHistory(h => [...h, prompt, { t: "green", v: `Opening ${target}…` }, { t: "text", v: "" }]);
       return;
     }
+    if (cmd === "ai" || cmd.startsWith("ai ")) {
+      const q = cmd === "ai" ? "" : cmd.slice(3).trim();
+      setHistory(h => [...h, prompt, ...getAiResponse(q), { t: "text", v: "" }]);
+      return;
+    }
     const fn  = COMMANDS[cmd];
     const out = fn ? fn() : [{ t: "red" as const, v: `Command not found: ${raw}. Try 'help'.` }];
     setHistory(h => [...h, prompt, ...out, { t: "text", v: "" }]);
@@ -172,6 +265,15 @@ export function Terminal({ onOpen }: { onOpen: (target: string) => void }) {
       setHistIdx(-1);
       run(input);
       setInput("");
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      if (!input.trim()) return;
+      const matches = ALL_CMDS.filter(c => c.startsWith(input.toLowerCase()));
+      if (matches.length === 1) {
+        setInput(matches[0]);
+      } else if (matches.length > 1) {
+        setHistory(h => [...h, { t: "dim", v: "  " + matches.join("   ") }]);
+      }
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       const n = Math.min(histIdx + 1, cmdHist.length - 1);

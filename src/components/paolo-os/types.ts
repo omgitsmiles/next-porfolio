@@ -10,7 +10,10 @@ export type WinState = {
   z: number;
   closed: boolean;
   minimized: boolean;
+  maximized: boolean;
 };
+
+export type ToastItem = { id: string; title: string; sub?: string };
 
 export type HistoryItem = {
   t: "amber" | "green" | "red" | "blue" | "cyan" | "dim" | "prompt" | "text" | "cmd";

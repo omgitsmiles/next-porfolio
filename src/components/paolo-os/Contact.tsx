@@ -5,7 +5,7 @@ import { sendEmail } from "../../../actions/sendEmail";
 import { useC, RESUME_URL, MONO } from "./theme";
 import type { SendStatus } from "./types";
 
-export function Contact() {
+export function Contact({ onToast }: { onToast?: (title: string, sub?: string) => void }) {
   const C = useC();
   const [compose, setCompose] = useState(false);
   const [form, setForm]       = useState({ email: "", subject: "", message: "" });
@@ -40,6 +40,7 @@ export function Contact() {
       setErrMsg(result.error);
     } else {
       setStatus("ok");
+      onToast?.("Message sent", "I'll get back to you soon.");
     }
   };
 
