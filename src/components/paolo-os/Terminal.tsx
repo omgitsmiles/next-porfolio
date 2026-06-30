@@ -74,7 +74,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
   neofetch: () => [
     { t: "amber", v: "  ┌──────┐  paoloalberca@paoloOS" },
     { t: "amber", v: " ┌────────┐ ───────────────────────────" },
-    { t: "amber", v: "┌──────────┐ OS: PaoloOS 1.1" },
+    { t: "amber", v: "┌──────────┐ OS: PaoloOS 1.2.1" },
     { t: "amber", v: "└──────────┘ Host: New York, NY" },
     { t: "amber", v: " └────────┘  Shell: bash 5.2" },
     { t: "amber", v: "  └──────┘   Stack: Typescript · Java · Python" },
