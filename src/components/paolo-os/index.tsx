@@ -10,6 +10,7 @@ import { Snake } from "./Snake";
 import { Terminal } from "./Terminal";
 import { Projects } from "./Projects";
 import { Contact } from "./Contact";
+import { SpaceInvaders } from "./SpaceInvaders";
 import { MenuBar } from "./MenuBar";
 import { Boot } from "./Boot";
 import { Spotlight } from "./Spotlight";
@@ -88,14 +89,16 @@ const ICON_INIT_POS: Record<string, { x: number; y: number }> = {
   about:    { x: 16, y: 212 },
   contact:  { x: 16, y: 296 },
   snake:    { x: 16, y: 380 },
+  space:    { x: 16, y: 464 },
 };
 
 const INIT_WINS: WinState[] = [
-  { id: "terminal", title: "terminal — bash", x: 60,  y: 55,  width: 600, height: 420, z: 105, closed: false, minimized: false, maximized: false },
-  { id: "projects", title: "projects/",       x: 680, y: 55,  width: 460, height: 500, z: 104, closed: true,  minimized: false, maximized: false },
-  { id: "about",    title: "about.md",        x: 680, y: 55,  width: 460, height: 500, z: 103, closed: false, minimized: false, maximized: false },
-  { id: "contact",  title: "contact.sh",      x: 680, y: 570, width: 360, height: 420, z: 102, closed: true,  minimized: false, maximized: false },
-  { id: "snake",    title: "snake",           x: 200, y: 120, width: 540, height: 380, z: 101, closed: true,  minimized: false, maximized: false },
+  { id: "terminal", title: "terminal — bash",   x: 60,  y: 55,  width: 600, height: 420, z: 105, closed: false, minimized: false, maximized: false },
+  { id: "projects", title: "projects/",         x: 680, y: 55,  width: 460, height: 500, z: 104, closed: true,  minimized: false, maximized: false },
+  { id: "about",    title: "about.md",          x: 680, y: 55,  width: 460, height: 500, z: 103, closed: false, minimized: false, maximized: false },
+  { id: "contact",  title: "contact.sh",        x: 680, y: 570, width: 360, height: 420, z: 102, closed: true,  minimized: false, maximized: false },
+  { id: "snake",    title: "snake",             x: 200, y: 120, width: 540, height: 380, z: 101, closed: true,  minimized: false, maximized: false },
+  { id: "space",    title: "space invaders",    x: 120, y: 60,  width: 580, height: 460, z: 100, closed: true,  minimized: false, maximized: false },
 ];
 
 const DOCK = [
@@ -104,6 +107,7 @@ const DOCK = [
   { id: "about",    label: "about.md"  },
   { id: "contact",  label: "contact"   },
   { id: "snake",    label: "snake"     },
+  { id: "space",    label: "invaders"  },
 ];
 
 function loadLS<T>(key: string, fallback: T): T {
@@ -252,7 +256,8 @@ export default function PaoloOS() {
                 w.id === "projects" ? <Projects /> :
                 w.id === "about"    ? <About /> :
                 w.id === "contact"  ? <Contact onToast={addToast} /> :
-                w.id === "snake"    ? <Snake /> : null;
+                w.id === "snake"    ? <Snake /> :
+                w.id === "space"    ? <SpaceInvaders /> : null;
               return (
                 <Win key={w.id} w={w} onFront={front} onToggle={toggle} onClose={close} onMove={move} onMax={toggleMax}>
                   {content}

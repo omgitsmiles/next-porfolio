@@ -5,7 +5,7 @@ import { useC, MONO } from "./theme";
 import { useUI } from "./hooks";
 import type { Dir, GameState } from "./types";
 
-const COLS_SN = 26, ROWS_SN = 18, SCORE_H = 30, DPAD_H = 116;
+const COLS_SN = 26, ROWS_SN = 18, SCORE_H = 30, DPAD_H = 130;
 
 function rand(max: number) { return Math.floor(Math.random() * max); }
 
@@ -113,9 +113,9 @@ export function Snake() {
     <button
       onPointerDown={e => { e.preventDefault(); steer(key); }}
       style={{
-        width: 48, height: 48, borderRadius: 10,
+        width: 36, height: 36, borderRadius: 8,
         background: C.winBar, border: `1px solid ${C.border}`,
-        color: C.textDim, fontSize: 18, cursor: "pointer",
+        color: C.textDim, fontSize: 14, cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center",
         userSelect: "none", WebkitUserSelect: "none",
         touchAction: "none",
@@ -217,7 +217,7 @@ export function Snake() {
           flexShrink: 0, height: DPAD_H,
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           gap: 4, borderTop: `1px solid ${C.border}`, backgroundColor: C.winBar,
-          paddingBottom: 8,
+          paddingTop: 6, paddingBottom: 8,
         }}>
           <div>{dpadBtn("▲", "ArrowUp")}</div>
           <div style={{ display: "flex", gap: 4 }}>
@@ -225,9 +225,9 @@ export function Snake() {
             <button
               onPointerDown={e => { e.preventDefault(); startOrRestart(); }}
               style={{
-                width: 48, height: 48, borderRadius: 10,
+                width: 36, height: 36, borderRadius: 8,
                 background: C.win, border: `1px solid ${C.amberDim}`,
-                color: C.amber, fontSize: 13, cursor: "pointer",
+                color: C.amber, fontSize: 11, cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 userSelect: "none", WebkitUserSelect: "none", touchAction: "none",
               }}

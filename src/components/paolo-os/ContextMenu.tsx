@@ -4,11 +4,12 @@ import { useEffect, useRef } from "react";
 import { useC, MONO, THEMES, THEME_KEYS, type ThemeName } from "./theme";
 
 const WINDOWS = [
-  { id: "terminal", label: "Terminal" },
-  { id: "about",    label: "About"    },
-  { id: "projects", label: "Projects" },
-  { id: "contact",  label: "Contact"  },
-  { id: "snake",    label: "Snake"    },
+  { id: "terminal", label: "Terminal"       },
+  { id: "about",    label: "About"          },
+  { id: "projects", label: "Projects"       },
+  { id: "contact",  label: "Contact"        },
+  { id: "snake",    label: "Snake"          },
+  { id: "space",    label: "Space Invaders" },
 ];
 
 type Props = {

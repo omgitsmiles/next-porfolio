@@ -8,11 +8,12 @@ import { WINDOW_ICONS } from "./icons";
 import type { WinState } from "./types";
 
 const MENU_WINDOWS = [
-  { id: "terminal", label: "Terminal" },
-  { id: "about",    label: "About"    },
-  { id: "projects", label: "Projects" },
-  { id: "contact",  label: "Contact"  },
-  { id: "snake",    label: "Snake"    },
+  { id: "terminal", label: "Terminal"        },
+  { id: "about",    label: "About"           },
+  { id: "projects", label: "Projects"        },
+  { id: "contact",  label: "Contact"         },
+  { id: "snake",    label: "Snake"           },
+  { id: "space",    label: "Space Invaders"  },
 ];
 
 const HELP_COMMANDS = [

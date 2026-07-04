@@ -13,11 +13,12 @@ type Result = {
 };
 
 const WINDOWS = [
-  { id: "terminal", label: "Terminal"  },
-  { id: "about",    label: "About"     },
-  { id: "projects", label: "Projects"  },
-  { id: "contact",  label: "Contact"   },
-  { id: "snake",    label: "Snake"     },
+  { id: "terminal", label: "Terminal"       },
+  { id: "about",    label: "About"          },
+  { id: "projects", label: "Projects"       },
+  { id: "contact",  label: "Contact"        },
+  { id: "snake",    label: "Snake"          },
+  { id: "space",    label: "Space Invaders" },
 ];
 
 type Props = {

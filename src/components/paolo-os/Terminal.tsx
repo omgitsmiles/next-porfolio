@@ -15,6 +15,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
     { t: "cmd", v: "  open projects → projects window" },
     { t: "cmd", v: "  open contact  → contact window" },
     { t: "cmd", v: "  open snake    → launch snake 🐍" },
+    { t: "cmd", v: "  open space   → space invaders 👾" },
     { t: "cmd", v: "  skills        → print skill list" },
     { t: "cmd", v: "  neofetch      → system info" },
     { t: "cmd", v: "  ai <question> → ask the AI" },
@@ -95,7 +96,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
 
 const ALL_CMDS = [
   ...Object.keys(COMMANDS),
-  "open resume", "open about", "open projects", "open contact", "open snake",
+  "open resume", "open about", "open projects", "open contact", "open snake", "open space",
   "clear", "vim about.txt", "ai",
 ];
 
@@ -182,7 +183,7 @@ function getAiResponse(q: string): HistoryItem[] {
 export function Terminal({ onOpen, ready }: { onOpen: (target: string) => void; ready?: boolean }) {
   const C = useC();
   const [history, setHistory] = useState<HistoryItem[]>([
-    { t: "amber", v: "PaoloOS Terminal v1.2" },
+    { t: "amber", v: "PaoloOS Terminal v3.3" },
     { t: "dim",   v: "Type 'help' to get started." },
     { t: "text",  v: "" },
   ]);
