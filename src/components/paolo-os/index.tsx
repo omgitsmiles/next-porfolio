@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { CContext, THEMES, MONO, useC, type ThemeName } from "./theme";
+import { CContext, THEMES, WALLPAPERS, MONO, type ThemeName } from "./theme";
+import type { WallpaperMode } from "./DynamicWallpaper";
 import { UICtx, useWindowSize, useWM } from "./hooks";
 import { WINDOW_ICONS } from "./icons";
 import { Win } from "./Win";
@@ -16,6 +17,7 @@ import { Boot } from "./Boot";
 import { Spotlight } from "./Spotlight";
 import { ContextMenu } from "./ContextMenu";
 import { Screensaver } from "./Screensaver";
+import { DynamicWallpaper } from "./DynamicWallpaper";
 import { Toaster } from "./Toast";
 import type { WinState, ToastItem } from "./types";
 import type { LucideIcon } from "lucide-react";
@@ -30,7 +32,6 @@ type DIconProps = {
 };
 
 function DIcon({ Icon, label, x, y, onDblClick, onMove }: DIconProps) {
-  const C        = useC();
   const [h, setH] = useState(false);
   const dragging  = useRef(false);
   const origin    = useRef<{ mx: number; my: number; ix: number; iy: number } | null>(null);
@@ -77,8 +78,13 @@ function DIcon({ Icon, label, x, y, onDblClick, onMove }: DIconProps) {
         zIndex: 1,
       }}
     >
-      <Icon size={28} strokeWidth={1.5} color={h ? C.amber : C.text} />
-      <span style={{ fontFamily: MONO, fontSize: 10, color: C.text, lineHeight: 1.3 }}>{label}</span>
+      {/* Fixed white/amber + drop shadow rather than theme colors: icons sit
+          directly on the photo wallpaper, which swings from bright day to
+          dark night, so a theme-matched dark color can disappear entirely. */}
+      <Icon size={28} strokeWidth={1.5} color={h ? "#ffb84d" : "#ffffff"}
+            style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.65))" }} />
+      <span style={{ fontFamily: MONO, fontSize: 10, color: "#ffffff", lineHeight: 1.3,
+                     textShadow: "0 1px 3px rgba(0,0,0,0.75)" }}>{label}</span>
     </div>
   );
 }
@@ -120,8 +126,19 @@ function loadLS<T>(key: string, fallback: T): T {
 
 export default function PaoloOS() {
   const [booted, setBooted]     = useState(false);
-  const [theme, setThemeState]  = useState<ThemeName>(() => loadLS("paoloos-theme", "sonoma" as ThemeName));
-  const [iconPos, setIconPos]   = useState<Record<string, { x: number; y: number }>>(() => loadLS("paoloos-icons", ICON_INIT_POS));
+  // These three persist to localStorage, which isn't available during SSR —
+  // start from the hardcoded defaults (matching the server-rendered HTML)
+  // and only pull the stored values in once mounted, to avoid a hydration
+  // mismatch when a returning visitor has a different theme/mode/layout saved.
+  const [theme, setThemeState]  = useState<ThemeName>("monterey");
+  const [wallpaperMode, setWallpaperModeState] = useState<WallpaperMode>("auto");
+  const [iconPos, setIconPos]   = useState<Record<string, { x: number; y: number }>>(ICON_INIT_POS);
+
+  useEffect(() => {
+    setThemeState(loadLS("paoloos-theme", "monterey" as ThemeName));
+    setWallpaperModeState(loadLS("paoloos-wallpaper-mode", "auto" as WallpaperMode));
+    setIconPos(loadLS("paoloos-icons", ICON_INIT_POS));
+  }, []);
   const [spotlight, setSpotlight] = useState(false);
   const [ctxMenu, setCtxMenu]   = useState<{ x: number; y: number } | null>(null);
   const [screensaver, setScreensaver] = useState(false);
@@ -136,7 +153,12 @@ export default function PaoloOS() {
 
   const setTheme = useCallback((t: ThemeName) => {
     setThemeState(t);
-    localStorage.setItem("paoloos-theme", t);
+    localStorage.setItem("paoloos-theme", JSON.stringify(t));
+  }, []);
+
+  const setWallpaperMode = useCallback((m: WallpaperMode) => {
+    setWallpaperModeState(m);
+    localStorage.setItem("paoloos-wallpaper-mode", JSON.stringify(m));
   }, []);
 
   const addToast = useCallback((title: string, sub?: string) => {
@@ -157,7 +179,7 @@ export default function PaoloOS() {
   }, []);
 
   const handleOpen = useCallback((target: string) => {
-    const validIds = ["terminal", "projects", "about", "contact", "snake"];
+    const validIds = ["terminal", "projects", "about", "contact", "snake", "space"];
     if (validIds.includes(target)) open(target);
   }, [open]);
 
@@ -229,8 +251,11 @@ export default function PaoloOS() {
               transition: "background-color 0.3s ease",
             }}
           >
+            <DynamicWallpaper daySrc={WALLPAPERS[theme].day} nightSrc={WALLPAPERS[theme].night} mode={wallpaperMode} />
+
             <MenuBar
               wins={wins} open={open} close={close} toggle={toggle} reset={handleReset}
+              wallpaperMode={wallpaperMode} onSetWallpaperMode={setWallpaperMode}
               theme={theme} onSetTheme={setTheme}
             />
 

@@ -75,7 +75,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
   neofetch: () => [
     { t: "amber", v: "  ┌──────┐  paoloalberca@paoloOS" },
     { t: "amber", v: " ┌────────┐ ───────────────────────────" },
-    { t: "amber", v: "┌──────────┐ OS: PaoloOS 1.2.1" },
+    { t: "amber", v: "┌──────────┐ OS: PaoloOS 3.4.0" },
     { t: "amber", v: "└──────────┘ Host: New York, NY" },
     { t: "amber", v: " └────────┘  Shell: bash 5.2" },
     { t: "amber", v: "  └──────┘   Stack: Typescript · Java · Python" },
@@ -183,7 +183,7 @@ function getAiResponse(q: string): HistoryItem[] {
 export function Terminal({ onOpen, ready }: { onOpen: (target: string) => void; ready?: boolean }) {
   const C = useC();
   const [history, setHistory] = useState<HistoryItem[]>([
-    { t: "amber", v: "PaoloOS Terminal v3.3" },
+    { t: "amber", v: "PaoloOS Terminal v3.4" },
     { t: "dim",   v: "Type 'help' to get started." },
     { t: "text",  v: "" },
   ]);

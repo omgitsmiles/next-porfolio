@@ -1,11 +1,16 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-import { Palette } from "lucide-react";
+import { Palette, Sun, Moon, SunMoon } from "lucide-react";
 import { useC, MONO, THEMES, THEME_KEYS, type ThemeName } from "./theme";
 import { useUI } from "./hooks";
 import { WINDOW_ICONS } from "./icons";
 import type { WinState } from "./types";
+import type { WallpaperMode } from "./DynamicWallpaper";
+
+const WALLPAPER_MODES: WallpaperMode[] = ["auto", "day", "night"];
+const WALLPAPER_MODE_ICON = { auto: SunMoon, day: Sun, night: Moon } as const;
+const WALLPAPER_MODE_LABEL = { auto: "Auto", day: "Day", night: "Night" } as const;
 
 const MENU_WINDOWS = [
   { id: "terminal", label: "Terminal"        },
@@ -67,9 +72,11 @@ type MenuBarProps = {
   reset: () => void;
   theme: ThemeName;
   onSetTheme: (t: ThemeName) => void;
+  wallpaperMode: WallpaperMode;
+  onSetWallpaperMode: (m: WallpaperMode) => void;
 };
 
-export function MenuBar({ wins, open, close, toggle, reset, theme, onSetTheme }: MenuBarProps) {
+export function MenuBar({ wins, open, close, toggle, reset, theme, onSetTheme, wallpaperMode, onSetWallpaperMode }: MenuBarProps) {
   const C = useC();
   const { isMobile } = useUI();
   const [active, setActive] = useState<string | null>(null);
@@ -191,6 +198,18 @@ export function MenuBar({ wins, open, close, toggle, reset, theme, onSetTheme }:
       )}
 
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+        <button
+          onClick={() => onSetWallpaperMode(WALLPAPER_MODES[(WALLPAPER_MODES.indexOf(wallpaperMode) + 1) % WALLPAPER_MODES.length])}
+          title={`Wallpaper: ${WALLPAPER_MODE_LABEL[wallpaperMode]} — click to cycle`}
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            lineHeight: 1, padding: "2px 6px", borderRadius: 4,
+            color: C.amber, display: "flex", alignItems: "center", gap: 5,
+          }}
+        >
+          {(() => { const Icon = WALLPAPER_MODE_ICON[wallpaperMode]; return <Icon size={13} strokeWidth={1.5} />; })()}
+          <span style={{ fontFamily: MONO, fontSize: 10 }}>{WALLPAPER_MODE_LABEL[wallpaperMode]}</span>
+        </button>
         <button
           onClick={() => onSetTheme(THEME_KEYS[(THEME_KEYS.indexOf(theme) + 1) % THEME_KEYS.length])}
           title={`Theme: ${THEMES[theme].name} — click to cycle`}

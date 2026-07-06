@@ -10,7 +10,7 @@ const LINES = [
   "Network services ········ OK",
   "Loading user: paolo ····· OK",
   "Mounting /dev/portfolio · OK",
-  "PaoloOS 3.3.0 ready ······· ✓",
+  "PaoloOS 3.4.0 ready ······· ✓",
 ];
 
 export function Boot({ onDone }: { onDone: () => void }) {
@@ -49,7 +49,7 @@ export function Boot({ onDone }: { onDone: () => void }) {
       transition: fading ? "opacity 0.48s ease" : "none",
     }}>
       <div style={{ color: "#ff9030", fontSize: 20, fontWeight: 700, marginBottom: 28, letterSpacing: "0.12em" }}>
-        ⌘ PaoloOS 3.3.0
+        ⌘ PaoloOS 3.4.0
       </div>
 
       <div style={{ width: 300, marginBottom: 20 }}>

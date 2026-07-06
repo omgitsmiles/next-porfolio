@@ -85,7 +85,7 @@ export function Screensaver({ onDismiss }: { onDismiss: () => void }) {
         color: "rgba(255,255,255,0.22)", letterSpacing: "0.28em",
         userSelect: "none",
       }}>
-        CLICK OR PRESS ANY KEY — PAOLOOS 1.2.1
+        CLICK OR PRESS ANY KEY — PAOLOOS 3.4.0
       </div>
     </div>
   );
