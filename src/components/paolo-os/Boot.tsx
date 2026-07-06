@@ -10,7 +10,7 @@ const LINES = [
   "Network services ········ OK",
   "Loading user: paolo ····· OK",
   "Mounting /dev/portfolio · OK",
-  "PaoloOS 3.5.0 ready ······· ✓",
+  "PaoloOS 3.5.1 ready ······· ✓",
 ];
 
 export function Boot({ onDone }: { onDone: () => void }) {
@@ -50,7 +50,7 @@ export function Boot({ onDone }: { onDone: () => void }) {
       }}
     >
       <div className="text-[#ff9030] text-xl font-bold mb-7 tracking-[0.12em]">
-        ⌘ PaoloOS 3.5.0
+        ⌘ PaoloOS 3.5.1
       </div>
 
       <div className="w-[300px] mb-5">

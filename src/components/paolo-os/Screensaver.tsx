@@ -80,7 +80,7 @@ export function Screensaver({ onDismiss }: { onDismiss: () => void }) {
         className="absolute bottom-[8%] w-full text-center text-[10px] tracking-[0.28em] select-none text-[rgba(255,255,255,0.22)]"
         style={{ fontFamily: MONO }}
       >
-        CLICK OR PRESS ANY KEY — paoloOS 3.5.0
+        CLICK OR PRESS ANY KEY — paoloOS 3.5.1
       </div>
     </div>
   );
