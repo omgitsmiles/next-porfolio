@@ -37,15 +37,17 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
   ],
   skills: () => [
     { t: "amber", v: "LANGUAGES" },
-    { t: "text",  v: "  Typescript · Java · Python · Ruby · SQL" },
+    { t: "text",  v: "  TypeScript · JavaScript · Java · Python · Ruby · SQL" },
     { t: "amber", v: "FRAMEWORKS" },
     { t: "text",  v: "  React · Next.js · Spring Boot · Django · Rails" },
     { t: "amber", v: "INFRA & TOOLS" },
-    { t: "text",  v: "  AWS · Docker · Kafka · Terraform · Jenkins · Spinnaker" },
+    { t: "text",  v: "  AWS · Docker · Kafka · Terraform · Jenkins · Spinnaker · MCP · GraphQL" },
     { t: "amber", v: "DATABASES" },
-    { t: "text",  v: "  PostgreSQL · MongoDB" },
+    { t: "text",  v: "  PostgreSQL · MongoDB · ChromaDB" },
     { t: "amber", v: "TESTING" },
     { t: "text",  v: "  JUnit · Cucumber · Jest · Gremlin · Jmeter" },
+    { t: "amber", v: "ML" },
+    { t: "text",  v: "  scikit-learn" },
   ],
   "cat resume": () => [
     { t: "amber", v: "─── PAOLO ALBERCA ──────────────────────────────────" },
@@ -55,8 +57,10 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
     { t: "amber", v: "EXPERIENCE" },
     { t: "green", v: "Software Engineer — JPMorgan Chase (Apr 2025–present)" },
     { t: "text",  v: "  · Data pipeline API — 12% lift in offer conversions" },
+    { t: "text",  v: "  · Enrollment & eligibility engine for partner systems" },
     { t: "text",  v: "  · Gremlin SME — -10% MTTR" },
     { t: "text",  v: "  · Dockerized Kafka dev environment" },
+    { t: "text",  v: "  · MCP server — OpenAPI validation in IDE copilot chat" },
     { t: "text",  v: "  · Full testing pyramid — -16% post-deploy incidents" },
     { t: "text",  v: "" },
     { t: "green", v: "Software Engineer — WeVote (Jul 2024–Feb 2025)" },
@@ -75,7 +79,7 @@ const COMMANDS: Record<string, () => HistoryItem[]> = {
   neofetch: () => [
     { t: "amber", v: "  ┌──────┐  paoloalberca@paoloOS" },
     { t: "amber", v: " ┌────────┐ ───────────────────────────" },
-    { t: "amber", v: "┌──────────┐ OS: PaoloOS 3.4.0" },
+    { t: "amber", v: "┌──────────┐ OS: PaoloOS 3.5.0" },
     { t: "amber", v: "└──────────┘ Host: New York, NY" },
     { t: "amber", v: " └────────┘  Shell: bash 5.2" },
     { t: "amber", v: "  └──────┘   Stack: Typescript · Java · Python" },
@@ -130,7 +134,7 @@ function getAiResponse(q: string): HistoryItem[] {
   if (/experience|work|job|career|history|employ/.test(lq)) return [
     { t: "amber", v: "EXPERIENCE" },
     { t: "green", v: "Software Engineer — JPMorgan Chase (Apr 2025–present)" },
-    { t: "text",  v: "  Data pipelines, Gremlin chaos engineering, Kafka" },
+    { t: "text",  v: "  Data pipelines, eligibility systems, Gremlin, Kafka, MCP tooling" },
     { t: "green", v: "Software Engineer — WeVote (Jul 2024–Feb 2025)" },
     { t: "text",  v: "  DB optimization, Material UI, Storybook" },
     { t: "dim",   v: "  Run 'cat resume' for the full picture." },
@@ -183,7 +187,7 @@ function getAiResponse(q: string): HistoryItem[] {
 export function Terminal({ onOpen, ready }: { onOpen: (target: string) => void; ready?: boolean }) {
   const C = useC();
   const [history, setHistory] = useState<HistoryItem[]>([
-    { t: "amber", v: "PaoloOS Terminal v3.4" },
+    { t: "amber", v: "PaoloOS Terminal v3.5.0" },
     { t: "dim",   v: "Type 'help' to get started." },
     { t: "text",  v: "" },
   ]);
@@ -293,20 +297,22 @@ export function Terminal({ onOpen, ready }: { onOpen: (target: string) => void; 
   return (
     <div
       onClick={() => inputRef.current?.focus()}
-      style={{ padding: "12px 16px", fontFamily: MONO, fontSize: 13, lineHeight: 1.6, cursor: "text", height: "100%", boxSizing: "border-box" }}
+      className="px-4 py-3 text-[13px] leading-[1.6] cursor-text h-full box-border"
+      style={{ fontFamily: MONO }}
     >
       {history.map((l, i) => (
-        <div key={i} style={{ color: col(l.t), whiteSpace: "pre-wrap", minHeight: "1.6em", animation: "line-in 0.1s ease" }}>{l.v}</div>
+        <div key={i} className="whitespace-pre-wrap min-h-[1.6em] animate-[line-in_0.1s_ease]" style={{ color: col(l.t) }}>{l.v}</div>
       ))}
-      <div style={{ display: "flex", alignItems: "center", marginTop: 2 }}>
-        <span style={{ color: C.amberDim, marginRight: 8 }}>guest@paoloOS:~$</span>
+      <div className="flex items-center mt-0.5">
+        <span className="mr-2" style={{ color: C.amberDim }}>guest@paoloOS:~$</span>
         <input
           ref={inputRef}
           autoFocus
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={onKey}
-          style={{ background: "transparent", border: "none", outline: "none", color: C.amber, fontFamily: MONO, fontSize: 13, flex: 1, caretColor: C.amber }}
+          className="bg-transparent border-none outline-none text-[13px] flex-1"
+          style={{ color: C.amber, fontFamily: MONO, caretColor: C.amber }}
         />
       </div>
       <div ref={bottomRef} />

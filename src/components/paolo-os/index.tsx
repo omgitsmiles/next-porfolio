@@ -66,25 +66,20 @@ function DIcon({ Icon, label, x, y, onDblClick, onMove }: DIconProps) {
       onDoubleClick={onDblClick}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
+      className="absolute flex flex-col items-center gap-[5px] px-3 py-2 rounded-md select-none w-20 text-center transition-[background,transform] duration-150 ease-in-out z-[1]"
       style={{
-        position: "absolute", left: x, top: y,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
-        padding: "8px 12px", borderRadius: 6,
+        left: x, top: y,
         cursor: dragging.current ? "grabbing" : "default",
         background: h ? "rgba(255,179,71,0.1)" : "transparent",
-        userSelect: "none", width: 80, textAlign: "center",
-        transition: "background 0.15s ease, transform 0.15s ease",
         transform: h && !dragging.current ? "scale(1.1)" : "scale(1)",
-        zIndex: 1,
       }}
     >
       {/* Fixed white/amber + drop shadow rather than theme colors: icons sit
           directly on the photo wallpaper, which swings from bright day to
           dark night, so a theme-matched dark color can disappear entirely. */}
       <Icon size={28} strokeWidth={1.5} color={h ? "#ffb84d" : "#ffffff"}
-            style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.65))" }} />
-      <span style={{ fontFamily: MONO, fontSize: 10, color: "#ffffff", lineHeight: 1.3,
-                     textShadow: "0 1px 3px rgba(0,0,0,0.75)" }}>{label}</span>
+            className="drop-shadow-[0_1px_3px_rgba(0,0,0,0.65)]" />
+      <span className="text-[10px] text-white leading-[1.3] [text-shadow:0_1px_3px_rgba(0,0,0,0.75)]" style={{ fontFamily: MONO }}>{label}</span>
     </div>
   );
 }
@@ -99,9 +94,9 @@ const ICON_INIT_POS: Record<string, { x: number; y: number }> = {
 };
 
 const INIT_WINS: WinState[] = [
-  { id: "terminal", title: "terminal — bash",   x: 60,  y: 55,  width: 600, height: 420, z: 105, closed: false, minimized: false, maximized: false },
-  { id: "projects", title: "projects/",         x: 680, y: 55,  width: 460, height: 500, z: 104, closed: true,  minimized: false, maximized: false },
-  { id: "about",    title: "about.md",          x: 680, y: 55,  width: 460, height: 500, z: 103, closed: false, minimized: false, maximized: false },
+  { id: "terminal", title: "terminal — bash",   x: 160, y: 60,  width: 600, height: 420, z: 105, closed: false, minimized: false, maximized: false },
+  { id: "projects", title: "projects/",         x: 830, y: 90,  width: 460, height: 500, z: 104, closed: true,  minimized: false, maximized: false },
+  { id: "about",    title: "about.md",          x: 800, y: 60,  width: 460, height: 500, z: 103, closed: false, minimized: false, maximized: false },
   { id: "contact",  title: "contact.sh",        x: 680, y: 570, width: 360, height: 420, z: 102, closed: true,  minimized: false, maximized: false },
   { id: "snake",    title: "snake",             x: 200, y: 120, width: 540, height: 380, z: 101, closed: true,  minimized: false, maximized: false },
   { id: "space",    title: "space invaders",    x: 120, y: 60,  width: 580, height: 460, z: 100, closed: true,  minimized: false, maximized: false },
@@ -242,13 +237,12 @@ export default function PaoloOS() {
               e.preventDefault();
               setCtxMenu({ x: e.clientX, y: e.clientY });
             }}
+            className="w-full h-screen overflow-hidden relative transition-[background-color] duration-300 ease-in-out"
             style={{
-              width: "100%", height: "100vh", overflow: "hidden",
               backgroundColor: C.desktop,
               backgroundImage: C.desktopBg,
               backgroundSize: C.desktopBgSize,
-              position: "relative", fontFamily: MONO,
-              transition: "background-color 0.3s ease",
+              fontFamily: MONO,
             }}
           >
             <DynamicWallpaper daySrc={WALLPAPERS[theme].day} nightSrc={WALLPAPERS[theme].night} mode={wallpaperMode} />
@@ -291,16 +285,10 @@ export default function PaoloOS() {
             })}
 
             {/* Taskbar */}
-            <div style={{
-              position: "absolute", bottom: 0, left: 0, right: 0,
-              height: isMobile ? 52 : 44, zIndex: 999,
-              background: C.taskbarBg, backdropFilter: "blur(12px)",
-              borderTop: `1px solid ${C.border}`,
-              display: "flex", alignItems: "center",
-              padding: isMobile ? "0 8px" : "0 16px",
-              gap: isMobile ? 4 : 8,
-              overflowX: isMobile ? "auto" : "visible",
-            }}>
+            <div
+              className={`absolute bottom-0 left-0 right-0 z-[999] flex items-center border-t backdrop-blur-md ${isMobile ? "h-[52px] px-2 gap-1 overflow-x-auto" : "h-11 px-4 gap-2 overflow-x-visible"}`}
+              style={{ background: C.taskbarBg, borderTopColor: C.border }}
+            >
               {isMobile
                 ? DOCK.map(d => {
                     const w      = wins.find(x => x.id === d.id)!;
@@ -314,17 +302,14 @@ export default function PaoloOS() {
                           if (w.minimized) { toggle(d.id); return; }
                           front(d.id);
                         }}
+                        className="flex-1 min-w-11 h-10 rounded-lg cursor-pointer flex flex-col items-center justify-center gap-0.5 border transition-all duration-150 ease-in-out"
                         style={{
-                          flex: "1 1 0", minWidth: 44, height: 40,
                           background: isActive ? "rgba(128,100,50,0.20)" : "transparent",
-                          border: `1px solid ${isActive ? C.amberDim : "transparent"}`,
-                          borderRadius: 8, cursor: "pointer",
-                          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                          gap: 2, transition: "all 0.15s ease",
+                          borderColor: isActive ? C.amberDim : "transparent",
                         }}
                       >
                         <Icon size={18} strokeWidth={1.5} color={isActive ? C.amber : C.textFaint} />
-                        <span style={{ fontFamily: MONO, fontSize: 8, color: isActive ? C.amber : C.textFaint, lineHeight: 1 }}>
+                        <span className="text-[8px] leading-none" style={{ fontFamily: MONO, color: isActive ? C.amber : C.textFaint }}>
                           {d.label.replace("/", "").replace(".md", "").replace(".sh", "")}
                         </span>
                       </button>
@@ -337,14 +322,12 @@ export default function PaoloOS() {
                         <button
                           key={w.id}
                           onClick={() => w.minimized ? toggle(w.id) : front(w.id)}
+                          className="rounded py-1 px-3 cursor-pointer flex items-center gap-1.5 border transition-all duration-150 ease-in-out text-[11px]"
                           style={{
                             background: w.minimized ? "rgba(128,100,50,0.06)" : "rgba(128,100,50,0.16)",
-                            border: `1px solid ${w.minimized ? C.border : C.amberDim}`,
-                            borderRadius: 4, padding: "4px 12px",
+                            borderColor: w.minimized ? C.border : C.amberDim,
                             color: w.minimized ? C.textDim : C.amber,
-                            fontFamily: MONO, fontSize: 11, cursor: "pointer",
-                            display: "flex", alignItems: "center", gap: 6,
-                            transition: "all 0.15s ease",
+                            fontFamily: MONO,
                           }}
                         >
                           {Icon && <Icon size={12} strokeWidth={1.5} />}
@@ -352,7 +335,7 @@ export default function PaoloOS() {
                         </button>
                       );
                     })}
-                    <div style={{ marginLeft: "auto", fontSize: 10, color: C.textFaint, whiteSpace: "nowrap" }}>
+                    <div className="ml-auto text-[10px] whitespace-nowrap" style={{ color: C.textFaint }}>
                       dbl-click icons · drag titlebars · ⌘K spotlight · right-click desktop
                     </div>
                   </>

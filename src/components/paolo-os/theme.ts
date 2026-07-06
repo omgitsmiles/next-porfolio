@@ -72,7 +72,7 @@ export const CContext = createContext<Palette>(THEMES.sonoma);
 export const useC = () => useContext(CContext);
 
 export const RESUME_URL =
-  "https://drive.google.com/file/d/1IX1TVx3z64EHtQ0f2agTOqmgJUzXvNq6/view?usp=sharing";
+  "https://drive.google.com/file/d/14XccNt8pgjP9ZY9zqHUixdwB189gz-B1/view?usp=sharing";
 
 export const MONO =
   "'JetBrains Mono','IBM Plex Mono','Fira Code',ui-monospace,monospace";

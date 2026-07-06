@@ -112,58 +112,46 @@ export function Snake() {
   const dpadBtn = (label: string, key: string): React.ReactNode => (
     <button
       onPointerDown={e => { e.preventDefault(); steer(key); }}
-      style={{
-        width: 36, height: 36, borderRadius: 8,
-        background: C.winBar, border: `1px solid ${C.border}`,
-        color: C.textDim, fontSize: 14, cursor: "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        userSelect: "none", WebkitUserSelect: "none",
-        touchAction: "none",
-      }}
+      className="w-9 h-9 rounded-lg border text-sm cursor-pointer flex items-center justify-center select-none touch-none"
+      style={{ background: C.winBar, borderColor: C.border, color: C.textDim }}
     >
       {label}
     </button>
   );
 
   return (
-    <div style={{
-      width: "100%", height: "100%",
-      display: "flex", flexDirection: "column",
-      fontFamily: MONO, userSelect: "none",
-      backgroundColor: C.win, overflow: "hidden",
-    }}>
+    <div
+      className="w-full h-full flex flex-col select-none overflow-hidden"
+      style={{ fontFamily: MONO, backgroundColor: C.win }}
+    >
       <div
         ref={gameRef}
         tabIndex={0}
         onKeyDown={handleKey}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        style={{
-          flex: 1, display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "flex-start",
-          outline: "none", overflow: "hidden", position: "relative",
-          touchAction: "none",
-        }}
+        className="flex-1 flex flex-col items-center justify-start outline-none overflow-hidden relative touch-none"
       >
-        <div style={{
-          height: SCORE_H, width: "100%", display: "flex", alignItems: "center", justifyContent: "center",
-          gap: 32, fontSize: 11, color: C.textFaint, letterSpacing: "0.08em", flexShrink: 0,
-        }}>
+        <div
+          className="h-[30px] w-full flex items-center justify-center gap-8 text-[11px] tracking-[0.08em] shrink-0"
+          style={{ color: C.textFaint }}
+        >
           <span>SCORE <span style={{ color: C.amber }}>{g.score}</span></span>
           <span style={{ color: C.textFaint }}>·</span>
-          <span style={{ fontSize: 10, color: C.textFaint }}>
+          <span className="text-[10px]" style={{ color: C.textFaint }}>
             {isMobile ? "swipe to move · tap to start" : "arrows to move · space to start"}
           </span>
         </div>
 
-        <div style={{
-          width: gridW, height: gridH,
-          display: "grid",
-          gridTemplateColumns: `repeat(${COLS_SN},${cell}px)`,
-          gridTemplateRows: `repeat(${ROWS_SN},${cell}px)`,
-          border: `1px solid ${C.border}`,
-          gap: 1, background: C.border, flexShrink: 0,
-        }}>
+        <div
+          className="grid shrink-0 border gap-px"
+          style={{
+            width: gridW, height: gridH,
+            gridTemplateColumns: `repeat(${COLS_SN},${cell}px)`,
+            gridTemplateRows: `repeat(${ROWS_SN},${cell}px)`,
+            borderColor: C.border, background: C.border,
+          }}
+        >
           {Array.from({ length: ROWS_SN }, (_, y) =>
             Array.from({ length: COLS_SN }, (_, x) => {
               const key    = `${x},${y}`;
@@ -172,18 +160,24 @@ export function Snake() {
               const isFood = g.food.x === x && g.food.y === y;
               const r      = Math.round(cell * 0.18);
               return (
-                <div key={key} style={{
-                  width: cell, height: cell,
-                  backgroundColor: isHead ? C.amber : isBody ? C.amberDim : C.desktop,
-                  borderRadius: isHead ? r : 0,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
+                <div
+                  key={key}
+                  className="flex items-center justify-center"
+                  style={{
+                    width: cell, height: cell,
+                    backgroundColor: isHead ? C.amber : isBody ? C.amberDim : C.desktop,
+                    borderRadius: isHead ? r : 0,
+                  }}
+                >
                   {isFood && (
-                    <div style={{
-                      width: Math.round(cell * 0.45), height: Math.round(cell * 0.45),
-                      borderRadius: "50%", background: C.red,
-                      boxShadow: `0 0 ${Math.round(cell * 0.35)}px ${C.red}`,
-                    }} />
+                    <div
+                      className="rounded-full"
+                      style={{
+                        width: Math.round(cell * 0.45), height: Math.round(cell * 0.45),
+                        background: C.red,
+                        boxShadow: `0 0 ${Math.round(cell * 0.35)}px ${C.red}`,
+                      }}
+                    />
                   )}
                 </div>
               );
@@ -192,17 +186,14 @@ export function Snake() {
         </div>
 
         {(!g.started || g.dead) && (
-          <div style={{
-            position: "absolute", top: SCORE_H, left: 0, right: 0, bottom: 0,
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <div style={{
-              background: C.winBar, border: `1px solid ${C.border}`,
-              borderRadius: 6, padding: "18px 32px", textAlign: "center",
-            }}>
-              {g.dead && <div style={{ color: C.red, fontSize: 14, marginBottom: 8, letterSpacing: "0.1em" }}>GAME OVER</div>}
-              {g.dead && <div style={{ color: C.textDim, fontSize: 12, marginBottom: 12 }}>Score: {g.score}</div>}
-              <div style={{ color: C.amber, fontSize: 12 }}>
+          <div className="absolute top-[30px] left-0 right-0 bottom-0 flex items-center justify-center">
+            <div
+              className="border rounded-md py-[18px] px-8 text-center"
+              style={{ background: C.winBar, borderColor: C.border }}
+            >
+              {g.dead && <div className="text-sm mb-2 tracking-[0.1em]" style={{ color: C.red }}>GAME OVER</div>}
+              {g.dead && <div className="text-xs mb-3" style={{ color: C.textDim }}>Score: {g.score}</div>}
+              <div className="text-xs" style={{ color: C.amber }}>
                 {g.dead
                   ? (isMobile ? "TAP to restart" : "SPACE to restart")
                   : (isMobile ? "TAP to start · swipe to move" : "SPACE to start · arrow keys to move")}
@@ -213,24 +204,17 @@ export function Snake() {
       </div>
 
       {isMobile && (
-        <div style={{
-          flexShrink: 0, height: DPAD_H,
-          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          gap: 4, borderTop: `1px solid ${C.border}`, backgroundColor: C.winBar,
-          paddingTop: 6, paddingBottom: 8,
-        }}>
+        <div
+          className="shrink-0 h-[130px] flex flex-col items-center justify-center gap-1 border-t pt-1.5 pb-2"
+          style={{ borderColor: C.border, backgroundColor: C.winBar }}
+        >
           <div>{dpadBtn("▲", "ArrowUp")}</div>
-          <div style={{ display: "flex", gap: 4 }}>
+          <div className="flex gap-1">
             {dpadBtn("◀", "ArrowLeft")}
             <button
               onPointerDown={e => { e.preventDefault(); startOrRestart(); }}
-              style={{
-                width: 36, height: 36, borderRadius: 8,
-                background: C.win, border: `1px solid ${C.amberDim}`,
-                color: C.amber, fontSize: 11, cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                userSelect: "none", WebkitUserSelect: "none", touchAction: "none",
-              }}
+              className="w-9 h-9 rounded-lg border text-[11px] cursor-pointer flex items-center justify-center select-none touch-none"
+              style={{ background: C.win, borderColor: C.amberDim, color: C.amber }}
             >
               {g.started && !g.dead ? "⏸" : "▶"}
             </button>

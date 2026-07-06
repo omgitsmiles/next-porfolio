@@ -73,19 +73,14 @@ export function Screensaver({ onDismiss }: { onDismiss: () => void }) {
   return (
     <div
       onClick={onDismiss}
-      style={{
-        position: "fixed", inset: 0, zIndex: 5000, cursor: "none",
-        animation: "fade-in 0.6s ease",
-      }}
+      className="fixed inset-0 z-[5000] cursor-none animate-[fade-in_0.6s_ease]"
     >
-      <canvas ref={canvasRef} style={{ display: "block" }} />
-      <div style={{
-        position: "absolute", bottom: "8%", width: "100%",
-        textAlign: "center", fontFamily: MONO, fontSize: 10,
-        color: "rgba(255,255,255,0.22)", letterSpacing: "0.28em",
-        userSelect: "none",
-      }}>
-        CLICK OR PRESS ANY KEY — PAOLOOS 3.4.0
+      <canvas ref={canvasRef} className="block" />
+      <div
+        className="absolute bottom-[8%] w-full text-center text-[10px] tracking-[0.28em] select-none text-[rgba(255,255,255,0.22)]"
+        style={{ fontFamily: MONO }}
+      >
+        CLICK OR PRESS ANY KEY — paoloOS 3.5.0
       </div>
     </div>
   );

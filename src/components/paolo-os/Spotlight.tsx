@@ -74,26 +74,14 @@ export function Spotlight({ onOpen, onSetTheme, onClose }: Props) {
   return (
     <div
       onMouseDown={onClose}
-      style={{
-        position: "absolute", inset: 0, zIndex: 3000,
-        background: "rgba(0,0,0,0.52)", backdropFilter: "blur(6px)",
-        display: "flex", alignItems: "flex-start", justifyContent: "center",
-        paddingTop: "15vh",
-      }}
+      className="absolute inset-0 z-[3000] flex items-start justify-center pt-[15vh] backdrop-blur-[6px] bg-[rgba(0,0,0,0.52)]"
     >
       <div
         onMouseDown={e => e.stopPropagation()}
-        style={{
-          width: 500, background: C.win, border: `1px solid ${C.border}`,
-          borderRadius: 10, overflow: "hidden",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.85)",
-          animation: "win-open 0.15s ease",
-        }}
+        className="w-[500px] overflow-hidden rounded-[10px] border shadow-[0_32px_80px_rgba(0,0,0,0.85)] [animation:win-open_0.15s_ease]"
+        style={{ background: C.win, borderColor: C.border }}
       >
-        <div style={{
-          display: "flex", alignItems: "center", gap: 10,
-          padding: "12px 16px", borderBottom: `1px solid ${C.border}`,
-        }}>
+        <div className="flex items-center gap-2.5 px-4 py-3 border-b" style={{ borderColor: C.border }}>
           <Search size={14} strokeWidth={1.5} color={C.textFaint} />
           <input
             ref={inputRef}
@@ -101,19 +89,17 @@ export function Spotlight({ onOpen, onSetTheme, onClose }: Props) {
             onChange={e => setQ(e.target.value)}
             onKeyDown={onKey}
             placeholder="Search windows and themes…"
-            style={{
-              flex: 1, background: "transparent", border: "none", outline: "none",
-              color: C.text, fontFamily: MONO, fontSize: 13,
-            }}
+            className="flex-1 bg-transparent border-none outline-none text-[13px]"
+            style={{ color: C.text, fontFamily: MONO }}
           />
-          <kbd style={{
-            fontSize: 9, color: C.textFaint, fontFamily: MONO,
-            border: `1px solid ${C.border}`, borderRadius: 3, padding: "1px 5px",
-          }}>esc</kbd>
+          <kbd
+            className="text-[9px] border rounded-[3px] px-[5px] py-px"
+            style={{ color: C.textFaint, fontFamily: MONO, borderColor: C.border }}
+          >esc</kbd>
         </div>
 
         {results.length > 0 ? (
-          <div style={{ maxHeight: 320, overflowY: "auto" }}>
+          <div className="max-h-[320px] overflow-y-auto">
             {results.map((r, i) => {
               const Icon = r.group === "window" ? WINDOW_ICONS[WINDOWS.find(w => w.label === r.label)?.id ?? ""] : null;
               return (
@@ -121,37 +107,30 @@ export function Spotlight({ onOpen, onSetTheme, onClose }: Props) {
                   key={i}
                   onClick={() => confirm(r)}
                   onMouseEnter={() => setSel(i)}
-                  style={{
-                    padding: "9px 16px", cursor: "pointer",
-                    background: i === sel ? `${C.border}cc` : "transparent",
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    transition: "background 0.08s",
-                  }}
+                  className="flex items-center justify-between py-[9px] px-4 cursor-pointer transition-[background] duration-[0.08s]"
+                  style={{ background: i === sel ? `${C.border}cc` : "transparent" }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div className="flex items-center gap-2.5">
                     {Icon && <Icon size={13} strokeWidth={1.5} color={C.textDim} />}
-                    <span style={{ color: C.text, fontFamily: MONO, fontSize: 13 }}>{r.label}</span>
-                    <span style={{ color: C.textFaint, fontFamily: MONO, fontSize: 10 }}>{r.sub}</span>
+                    <span className="text-[13px]" style={{ color: C.text, fontFamily: MONO }}>{r.label}</span>
+                    <span className="text-[10px]" style={{ color: C.textFaint, fontFamily: MONO }}>{r.sub}</span>
                   </div>
-                  <span style={{
-                    fontSize: 9, color: groupColor(r.group),
-                    fontFamily: MONO, textTransform: "uppercase", letterSpacing: "0.1em",
-                  }}>{r.group}</span>
+                  <span
+                    className="text-[9px] uppercase tracking-[0.1em]"
+                    style={{ color: groupColor(r.group), fontFamily: MONO }}
+                  >{r.group}</span>
                 </div>
               );
             })}
           </div>
         ) : (
-          <div style={{ padding: "20px 16px", textAlign: "center", color: C.textFaint, fontFamily: MONO, fontSize: 12 }}>
+          <div className="py-5 px-4 text-center text-xs" style={{ color: C.textFaint, fontFamily: MONO }}>
             No results for &quot;{q}&quot;
           </div>
         )}
 
-        <div style={{
-          padding: "6px 16px", borderTop: `1px solid ${C.border}`,
-          display: "flex", gap: 16,
-        }}>
-          <span style={{ fontSize: 9, color: C.textFaint, fontFamily: MONO }}>
+        <div className="flex gap-4 px-4 py-1.5 border-t" style={{ borderColor: C.border }}>
+          <span className="text-[9px]" style={{ color: C.textFaint, fontFamily: MONO }}>
             ⌘K toggle · ↑↓ navigate · ↵ select
           </span>
         </div>

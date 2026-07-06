@@ -20,11 +20,9 @@ export function Contact({ onToast }: { onToast?: (title: string, sub?: string) =
     { label: "linkedin", val: "paolo-alberca",             href: "https://linkedin.com/in/paolo-alberca" },
   ];
 
-  const field: React.CSSProperties = {
-    width: "100%", boxSizing: "border-box",
-    background: C.win, border: `1px solid ${C.border}`,
-    borderRadius: 3, color: C.text, fontFamily: MONO, fontSize: 12,
-    padding: "6px 10px", outline: "none",
+  const fieldClass = "w-full box-border border rounded-[3px] text-[12px] py-1.5 px-2.5 outline-none";
+  const fieldStyle: React.CSSProperties = {
+    background: C.win, borderColor: C.border, color: C.text, fontFamily: MONO,
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,16 +50,17 @@ export function Contact({ onToast }: { onToast?: (title: string, sub?: string) =
   };
 
   return (
-    <div style={{ position: "relative", height: "100%", fontFamily: MONO }}>
-      <div style={{ padding: "14px 18px" }}>
-        <div style={{ color: C.amber, marginBottom: 14, fontSize: 11, letterSpacing: "0.1em" }}>
+    <div className="relative h-full" style={{ fontFamily: MONO }}>
+      <div className="py-3.5 px-[18px]">
+        <div className="mb-3.5 text-[11px] tracking-[0.1em]" style={{ color: C.amber }}>
           contact.sh — executable
         </div>
-        <div style={{ display: "flex", gap: 12, marginBottom: 10, alignItems: "center" }}>
-          <span style={{ color: C.textFaint, minWidth: 64, fontSize: 11 }}>email</span>
+        <div className="flex gap-3 mb-2.5 items-center">
+          <span className="min-w-16 text-[11px]" style={{ color: C.textFaint }}>email</span>
           <span
             onClick={() => setCompose(true)}
-            style={{ color: C.amber, fontSize: 12, cursor: "pointer", textDecoration: "none" }}
+            className="text-[12px] cursor-pointer"
+            style={{ color: C.amber, textDecoration: "none" }}
             onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
             onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
           >
@@ -69,15 +68,16 @@ export function Contact({ onToast }: { onToast?: (title: string, sub?: string) =
           </span>
         </div>
         {links.map(l => (
-          <div key={l.label} style={{ display: "flex", gap: 12, marginBottom: 10, alignItems: "center" }}>
-            <span style={{ color: C.textFaint, minWidth: 64, fontSize: 11 }}>{l.label}</span>
+          <div key={l.label} className="flex gap-3 mb-2.5 items-center">
+            <span className="min-w-16 text-[11px]" style={{ color: C.textFaint }}>{l.label}</span>
             <a
               href={l.href}
               target="_blank"
               rel="noreferrer"
+              className="text-[12px]"
               style={{
                 color: l.label === "resume" || l.label === "blog" ? C.green : C.amber,
-                textDecoration: "none", fontSize: 12,
+                textDecoration: "none",
               }}
               onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
               onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
@@ -86,17 +86,14 @@ export function Contact({ onToast }: { onToast?: (title: string, sub?: string) =
             </a>
           </div>
         ))}
-        <div style={{ marginTop: 16, borderTop: `1px solid ${C.border}`, paddingTop: 12 }}>
-          <div style={{ fontSize: 11, color: C.textFaint, marginBottom: 12, whiteSpace: "pre" }}>
+        <div className="mt-4 pt-3 border-t" style={{ borderTopColor: C.border }}>
+          <div className="text-[11px] mb-3 whitespace-pre" style={{ color: C.textFaint }}>
             {"# Open to new opportunities.\n# Based in NYC — hybrid or remote."}
           </div>
           <button
             onClick={() => setCompose(true)}
-            style={{
-              background: "rgba(255,179,71,0.12)", border: `1px solid ${C.amberDim}`,
-              borderRadius: 3, color: C.amber, fontFamily: MONO, fontSize: 11,
-              padding: "5px 14px", cursor: "pointer",
-            }}
+            className="border rounded-[3px] text-[11px] py-[5px] px-3.5 cursor-pointer bg-[rgba(255,179,71,0.12)]"
+            style={{ borderColor: C.amberDim, color: C.amber, fontFamily: MONO }}
           >
             compose message →
           </button>
@@ -104,88 +101,94 @@ export function Contact({ onToast }: { onToast?: (title: string, sub?: string) =
       </div>
 
       {compose && (
-        <div style={{
-          position: "absolute", inset: 0, background: C.win,
-          padding: "16px 18px", display: "flex", flexDirection: "column",
-          zIndex: 10, animation: "slide-up 0.2s ease",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <span style={{ color: C.amber, fontSize: 11, letterSpacing: "0.1em" }}>compose.sh</span>
+        <div
+          className="absolute inset-0 py-4 px-[18px] flex flex-col z-10 animate-[slide-up_0.2s_ease]"
+          style={{ background: C.win }}
+        >
+          <div className="flex justify-between items-center mb-3.5">
+            <span className="text-[11px] tracking-[0.1em]" style={{ color: C.amber }}>compose.sh</span>
             <button
               onClick={resetCompose}
-              style={{ background: "none", border: "none", color: C.textFaint, cursor: "pointer", fontSize: 13, fontFamily: MONO }}
+              className="bg-transparent border-none cursor-pointer text-[13px]"
+              style={{ color: C.textFaint, fontFamily: MONO }}
             >
               ×
             </button>
           </div>
 
           {status === "ok" ? (
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
-              <div style={{ color: C.green, fontSize: 13 }}>✓ message sent</div>
-              <div style={{ color: C.textFaint, fontSize: 11 }}>I&apos;ll get back to you soon.</div>
+            <div className="flex-1 flex flex-col items-center justify-center gap-2.5">
+              <div className="text-[13px]" style={{ color: C.green }}>✓ message sent</div>
+              <div className="text-[11px]" style={{ color: C.textFaint }}>I&apos;ll get back to you soon.</div>
               <button
                 onClick={resetCompose}
-                style={{ marginTop: 8, background: "none", border: `1px solid ${C.border}`, borderRadius: 3, color: C.textDim, fontFamily: MONO, fontSize: 11, padding: "4px 14px", cursor: "pointer" }}
+                className="mt-2 bg-transparent border rounded-[3px] text-[11px] py-1 px-3.5 cursor-pointer"
+                style={{ borderColor: C.border, color: C.textDim, fontFamily: MONO }}
               >
                 close
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 flex-1">
               <div>
-                <div style={{ fontSize: 10, color: C.textFaint, marginBottom: 4 }}>your email</div>
+                <div className="text-[10px] mb-1" style={{ color: C.textFaint }}>your email</div>
                 <input
                   type="email"
                   required
                   value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  style={field}
+                  className={fieldClass}
+                  style={fieldStyle}
                   onFocus={e => (e.currentTarget.style.borderColor = C.amberDim)}
                   onBlur={e => (e.currentTarget.style.borderColor = C.border)}
                 />
               </div>
               <div>
-                <div style={{ fontSize: 10, color: C.textFaint, marginBottom: 4 }}>subject</div>
+                <div className="text-[10px] mb-1" style={{ color: C.textFaint }}>subject</div>
                 <input
                   type="text"
                   required
                   value={form.subject}
                   onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                  style={field}
+                  className={fieldClass}
+                  style={fieldStyle}
                   onFocus={e => (e.currentTarget.style.borderColor = C.amberDim)}
                   onBlur={e => (e.currentTarget.style.borderColor = C.border)}
                 />
               </div>
-              <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 10, color: C.textFaint, marginBottom: 4 }}>message</div>
+              <div className="flex-1 flex flex-col">
+                <div className="text-[10px] mb-1" style={{ color: C.textFaint }}>message</div>
                 <textarea
                   required
                   value={form.message}
                   onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  style={{ ...field, flex: 1, resize: "none", minHeight: 90 }}
+                  className={`${fieldClass} flex-1 resize-none min-h-[90px]`}
+                  style={fieldStyle}
                   onFocus={e => (e.currentTarget.style.borderColor = C.amberDim)}
                   onBlur={e => (e.currentTarget.style.borderColor = C.border)}
                 />
               </div>
               {status === "error" && (
-                <div style={{ color: C.red, fontSize: 11 }}>⚠ {errMsg}</div>
+                <div className="text-[11px]" style={{ color: C.red }}>⚠ {errMsg}</div>
               )}
-              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+              <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={resetCompose}
-                  style={{ background: "none", border: `1px solid ${C.border}`, borderRadius: 3, color: C.textDim, fontFamily: MONO, fontSize: 11, padding: "5px 14px", cursor: "pointer" }}
+                  className="bg-transparent border rounded-[3px] text-[11px] py-[5px] px-3.5 cursor-pointer"
+                  style={{ borderColor: C.border, color: C.textDim, fontFamily: MONO }}
                 >
                   cancel
                 </button>
                 <button
                   type="submit"
                   disabled={status === "sending"}
+                  className="rounded-[3px] text-[11px] py-[5px] px-3.5"
                   style={{
                     background: status === "sending" ? "rgba(255,179,71,0.06)" : "rgba(255,179,71,0.15)",
-                    border: `1px solid ${C.amberDim}`, borderRadius: 3,
+                    border: `1px solid ${C.amberDim}`,
                     color: status === "sending" ? C.textFaint : C.amber,
-                    fontFamily: MONO, fontSize: 11, padding: "5px 14px", cursor: status === "sending" ? "default" : "pointer",
+                    fontFamily: MONO, cursor: status === "sending" ? "default" : "pointer",
                   }}
                 >
                   {status === "sending" ? "sending…" : "send →"}

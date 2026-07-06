@@ -561,22 +561,15 @@ export function SpaceInvaders() {
     setOverlay('leaderboard');
   }, [nameInput, finalScore]);
 
-  const btnStyle = (color: string): React.CSSProperties => ({
-    width: 44, height: 44, borderRadius: 8,
-    background: C.winBar, border: `1px solid ${color}`,
-    color, fontSize: 14, cursor: "pointer",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    userSelect: "none", WebkitUserSelect: "none" as React.CSSProperties["WebkitUserSelect"],
-    touchAction: "none",
-  });
+  const btnCommonClass = "h-11 rounded-lg border cursor-pointer flex items-center justify-center select-none touch-none";
 
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", fontFamily: MONO, backgroundColor: C.desktop, position: "relative" }}>
+    <div className="w-full h-full flex flex-col relative" style={{ fontFamily: MONO, backgroundColor: C.desktop }}>
 
       {/* Canvas game area */}
       <div
         ref={containerRef}
-        style={{ flex: 1, position: "relative", overflow: "hidden" }}
+        className="flex-1 relative overflow-hidden"
       >
         <canvas
           ref={canvasRef}
@@ -587,38 +580,30 @@ export function SpaceInvaders() {
             canvasRef.current?.focus();
             if (game.current.status === 'idle' || game.current.status === 'gameover') startGame();
           }}
-          style={{ display: "block", width: "100%", height: "100%", cursor: "default", outline: "none" }}
+          className="block w-full h-full cursor-default outline-none"
         />
 
         {/* Leaderboard toggle button */}
         <button
           onClick={() => { setScores(loadScores()); setOverlay(o => o === 'leaderboard' ? 'none' : 'leaderboard'); }}
-          style={{
-            position: "absolute", top: 4, right: 6,
-            background: "none", border: `1px solid ${C.border}`, borderRadius: 4,
-            color: C.textFaint, fontFamily: MONO, fontSize: 9, padding: "2px 6px",
-            cursor: "pointer",
-          }}
+          className="absolute top-1 right-1.5 bg-transparent border rounded text-[9px] px-1.5 py-0.5 cursor-pointer"
+          style={{ borderColor: C.border, color: C.textFaint, fontFamily: MONO }}
         >
           TOP 10
         </button>
 
         {/* Overlays */}
         {overlay === 'leaderboard' && (
-          <div style={{
-            position: "absolute", inset: 0, background: "rgba(0,0,0,0.88)",
-            display: "flex", flexDirection: "column", alignItems: "center",
-            justifyContent: "center", padding: 20, animation: "win-open 0.15s ease",
-          }}>
-            <div style={{ color: C.amber, fontFamily: MONO, fontSize: 13, marginBottom: 14, letterSpacing: "0.15em" }}>TOP 10 SCORES</div>
+          <div className="absolute inset-0 bg-black/[0.88] flex flex-col items-center justify-center p-5 [animation:win-open_0.15s_ease]">
+            <div className="text-[13px] mb-3.5 tracking-[0.15em]" style={{ color: C.amber, fontFamily: MONO }}>TOP 10 SCORES</div>
             {scores.length === 0
-              ? <div style={{ color: C.textFaint, fontFamily: MONO, fontSize: 11 }}>No scores yet. Play!</div>
+              ? <div className="text-[11px]" style={{ color: C.textFaint, fontFamily: MONO }}>No scores yet. Play!</div>
               : scores.map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 12, width: 220, marginBottom: 6 }}>
-                    <span style={{ color: C.textFaint, fontFamily: MONO, fontSize: 11, width: 18, textAlign: "right" }}>{i + 1}.</span>
-                    <span style={{ color: i === 0 ? C.amber : C.text, fontFamily: MONO, fontSize: 11, flex: 1 }}>{e.name}</span>
-                    <span style={{ color: C.green, fontFamily: MONO, fontSize: 11, width: 50, textAlign: "right" }}>{e.score}</span>
-                    <span style={{ color: C.textFaint, fontFamily: MONO, fontSize: 9, width: 44, textAlign: "right" }}>
+                  <div key={i} className="flex gap-3 w-[220px] mb-1.5">
+                    <span className="text-[11px] w-[18px] text-right" style={{ color: C.textFaint, fontFamily: MONO }}>{i + 1}.</span>
+                    <span className="text-[11px] flex-1" style={{ color: i === 0 ? C.amber : C.text, fontFamily: MONO }}>{e.name}</span>
+                    <span className="text-[11px] w-[50px] text-right" style={{ color: C.green, fontFamily: MONO }}>{e.score}</span>
+                    <span className="text-[9px] w-11 text-right" style={{ color: C.textFaint, fontFamily: MONO }}>
                       {new Date(e.ts).toLocaleDateString("en", { month: "short", day: "numeric" })}
                     </span>
                   </div>
@@ -626,11 +611,8 @@ export function SpaceInvaders() {
             }
             <button
               onClick={() => setOverlay('none')}
-              style={{
-                marginTop: 16, background: "none", border: `1px solid ${C.amberDim}`,
-                borderRadius: 4, color: C.amber, fontFamily: MONO, fontSize: 11,
-                padding: "4px 16px", cursor: "pointer",
-              }}
+              className="mt-4 bg-transparent border rounded text-[11px] px-4 py-1 cursor-pointer"
+              style={{ borderColor: C.amberDim, color: C.amber, fontFamily: MONO }}
             >
               {game.current.status === 'idle' || game.current.status === 'gameover' ? "Play →" : "Resume →"}
             </button>
@@ -638,35 +620,24 @@ export function SpaceInvaders() {
         )}
 
         {overlay === 'nameEntry' && (
-          <div style={{
-            position: "absolute", inset: 0, background: "rgba(0,0,0,0.88)",
-            display: "flex", flexDirection: "column", alignItems: "center",
-            justifyContent: "center", gap: 12, animation: "win-open 0.15s ease",
-          }}>
-            <div style={{ color: C.red, fontFamily: MONO, fontSize: 13, letterSpacing: "0.15em" }}>GAME OVER</div>
-            <div style={{ color: C.amber, fontFamily: MONO, fontSize: 12 }}>SCORE: {finalScore}</div>
-            <div style={{ color: C.green, fontFamily: MONO, fontSize: 10, marginBottom: 4 }}>NEW HIGH SCORE! Enter your name:</div>
+          <div className="absolute inset-0 bg-black/[0.88] flex flex-col items-center justify-center gap-3 [animation:win-open_0.15s_ease]">
+            <div className="text-[13px] tracking-[0.15em]" style={{ color: C.red, fontFamily: MONO }}>GAME OVER</div>
+            <div className="text-xs" style={{ color: C.amber, fontFamily: MONO }}>SCORE: {finalScore}</div>
+            <div className="text-[10px] mb-1" style={{ color: C.green, fontFamily: MONO }}>NEW HIGH SCORE! Enter your name:</div>
             <input
               ref={nameRef}
               value={nameInput}
               maxLength={8}
               onChange={e => setNameInput(e.target.value.toUpperCase())}
               onKeyDown={e => { if (e.key === "Enter") submitName(); }}
-              style={{
-                background: C.win, border: `1px solid ${C.amberDim}`,
-                borderRadius: 4, color: C.amber, fontFamily: MONO, fontSize: 14,
-                padding: "6px 12px", outline: "none", textAlign: "center",
-                letterSpacing: "0.3em", width: 140,
-              }}
+              className="border rounded text-sm px-3 py-1.5 outline-none text-center tracking-[0.3em] w-[140px]"
+              style={{ background: C.win, borderColor: C.amberDim, color: C.amber, fontFamily: MONO }}
               placeholder="YOUR NAME"
             />
             <button
               onClick={submitName}
-              style={{
-                background: "rgba(255,179,71,0.12)", border: `1px solid ${C.amberDim}`,
-                borderRadius: 4, color: C.amber, fontFamily: MONO, fontSize: 11,
-                padding: "5px 20px", cursor: "pointer",
-              }}
+              className="bg-[rgba(255,179,71,0.12)] border rounded text-[11px] px-5 py-[5px] cursor-pointer"
+              style={{ borderColor: C.amberDim, color: C.amber, fontFamily: MONO }}
             >
               Submit →
             </button>
@@ -674,31 +645,24 @@ export function SpaceInvaders() {
         )}
 
         {overlay === 'gameover' && (
-          <div style={{
-            position: "absolute", inset: 0, background: "rgba(0,0,0,0.85)",
-            display: "flex", flexDirection: "column", alignItems: "center",
-            justifyContent: "center", gap: 10, animation: "win-open 0.15s ease",
-          }}>
-            <div style={{ color: C.red, fontFamily: MONO, fontSize: 13, letterSpacing: "0.15em" }}>GAME OVER</div>
-            <div style={{ color: C.amber, fontFamily: MONO, fontSize: 12 }}>SCORE: {finalScore}</div>
+          <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center gap-2.5 [animation:win-open_0.15s_ease]">
+            <div className="text-[13px] tracking-[0.15em]" style={{ color: C.red, fontFamily: MONO }}>GAME OVER</div>
+            <div className="text-xs" style={{ color: C.amber, fontFamily: MONO }}>SCORE: {finalScore}</div>
             {scores.length > 0 && (
-              <div style={{ marginTop: 8 }}>
+              <div className="mt-2">
                 {scores.slice(0, 5).map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, width: 200, marginBottom: 4 }}>
-                    <span style={{ color: C.textFaint, fontFamily: MONO, fontSize: 10, width: 16 }}>{i+1}.</span>
-                    <span style={{ color: i === 0 ? C.amber : C.text, fontFamily: MONO, fontSize: 10, flex: 1 }}>{e.name}</span>
-                    <span style={{ color: C.green, fontFamily: MONO, fontSize: 10 }}>{e.score}</span>
+                  <div key={i} className="flex gap-2.5 w-[200px] mb-1">
+                    <span className="text-[10px] w-4" style={{ color: C.textFaint, fontFamily: MONO }}>{i+1}.</span>
+                    <span className="text-[10px] flex-1" style={{ color: i === 0 ? C.amber : C.text, fontFamily: MONO }}>{e.name}</span>
+                    <span className="text-[10px]" style={{ color: C.green, fontFamily: MONO }}>{e.score}</span>
                   </div>
                 ))}
               </div>
             )}
             <button
               onClick={startGame}
-              style={{
-                marginTop: 6, background: "rgba(255,179,71,0.12)", border: `1px solid ${C.amberDim}`,
-                borderRadius: 4, color: C.amber, fontFamily: MONO, fontSize: 11,
-                padding: "5px 20px", cursor: "pointer",
-              }}
+              className="mt-1.5 bg-[rgba(255,179,71,0.12)] border rounded text-[11px] px-5 py-[5px] cursor-pointer"
+              style={{ borderColor: C.amberDim, color: C.amber, fontFamily: MONO }}
             >
               Play Again →
             </button>
@@ -708,25 +672,25 @@ export function SpaceInvaders() {
 
       {/* Mobile D-pad */}
       {isMobile && (
-        <div style={{
-          flexShrink: 0, height: DPAD_H_SI,
-          borderTop: `1px solid ${C.border}`, backgroundColor: C.winBar,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "8px 24px",
-        }}>
+        <div
+          className="flex-shrink-0 h-[134px] border-t flex items-center justify-between px-6 py-2"
+          style={{ borderColor: C.border, backgroundColor: C.winBar }}
+        >
           {/* Left/Right */}
-          <div style={{ display: "flex", gap: 6 }}>
+          <div className="flex gap-1.5">
             <button
               onPointerDown={e => { e.preventDefault(); mobileLeft.current = true; }}
               onPointerUp={() => { mobileLeft.current = false; }}
               onPointerLeave={() => { mobileLeft.current = false; }}
-              style={btnStyle(C.textDim)}
+              className={`${btnCommonClass} w-11 text-sm`}
+              style={{ background: C.winBar, borderColor: C.textDim, color: C.textDim }}
             >◀</button>
             <button
               onPointerDown={e => { e.preventDefault(); mobileRight.current = true; }}
               onPointerUp={() => { mobileRight.current = false; }}
               onPointerLeave={() => { mobileRight.current = false; }}
-              style={btnStyle(C.textDim)}
+              className={`${btnCommonClass} w-11 text-sm`}
+              style={{ background: C.winBar, borderColor: C.textDim, color: C.textDim }}
             >▶</button>
           </div>
 
@@ -739,12 +703,8 @@ export function SpaceInvaders() {
             }}
             onPointerUp={() => { mobileFire.current = false; }}
             onPointerLeave={() => { mobileFire.current = false; }}
-            style={{
-              ...btnStyle(C.amber),
-              width: 60, height: 44, fontSize: 12,
-              background: "rgba(255,179,71,0.1)",
-              letterSpacing: "0.04em",
-            }}
+            className={`${btnCommonClass} w-[60px] text-xs tracking-[0.04em] bg-[rgba(255,179,71,0.1)]`}
+            style={{ borderColor: C.amber, color: C.amber }}
           >
             {game.current.status === 'idle' ? "START" : "FIRE"}
           </button>

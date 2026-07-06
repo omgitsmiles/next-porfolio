@@ -56,30 +56,23 @@ export function DynamicWallpaper({
     t === null       ? { night: 0, warm: 0 } :
     phase(t);
 
-  const layer: React.CSSProperties = {
-    position: "absolute", inset: 0, width: "100%", height: "100%",
-    objectFit: "cover", userSelect: "none", pointerEvents: "none",
-  };
+  const layerClass = "absolute inset-0 w-full h-full object-cover select-none pointer-events-none";
 
   return (
-    <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }} aria-hidden>
+    <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={daySrc} alt="" draggable={false} style={layer} />
+      <img src={daySrc} alt="" draggable={false} className={layerClass} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={nightSrc} alt="" draggable={false}
-           style={{ ...layer, opacity: night, transition: "opacity 2s linear" }} />
+           className={`${layerClass} transition-opacity duration-[2000ms] ease-linear`}
+           style={{ opacity: night }} />
       {/* dawn / dusk warm wash */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none", opacity: warm,
-        transition: "opacity 2s linear",
-        background:
-          "radial-gradient(130% 80% at 50% 96%, rgba(255,155,85,0.6) 0%, rgba(255,120,90,0.18) 42%, transparent 70%)",
-      }} />
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-[2000ms] ease-linear bg-[radial-gradient(130%_80%_at_50%_96%,rgba(255,155,85,0.6)_0%,rgba(255,120,90,0.18)_42%,transparent_70%)]"
+        style={{ opacity: warm }}
+      />
       {/* vignette for icon/text legibility */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        background: "radial-gradient(120% 95% at 50% 30%, transparent 55%, rgba(4,6,16,0.4) 100%)",
-      }} />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(120%_95%_at_50%_30%,transparent_55%,rgba(4,6,16,0.4)_100%)]" />
     </div>
   );
 }

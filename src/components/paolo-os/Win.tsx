@@ -54,7 +54,7 @@ export function Win({ w, onFront, onToggle, onClose, onMove, onMax, children }: 
   const mobileStyle: React.CSSProperties = isMobile ? {
     position: "fixed", left: 0, top: 28, right: 0, bottom: 44,
     width: "100%", height: "auto", zIndex: w.z,
-    borderRadius: 0, border: "none",
+    borderRadius: 0, borderWidth: 0,
   } : {};
 
   const maxStyle: React.CSSProperties = isMaximized ? {
@@ -66,15 +66,12 @@ export function Win({ w, onFront, onToggle, onClose, onMove, onMax, children }: 
   return (
     <div
       onClick={() => onFront(w.id)}
+      className="absolute flex flex-col border rounded-md overflow-hidden select-none shadow-[0_24px_64px_rgba(0,0,0,0.75)] [animation:win-open_0.18s_ease]"
       style={{
-        position: "absolute", left: w.x, top: w.y,
+        left: w.x, top: w.y,
         width: w.width, height: w.height, zIndex: w.z,
-        display: "flex", flexDirection: "column",
-        border: `1px solid ${C.border}`, borderRadius: 6,
-        overflow: "hidden",
-        boxShadow: "0 24px 64px rgba(0,0,0,0.75)",
-        background: C.win, userSelect: "none",
-        animation: "win-open 0.18s ease",
+        borderColor: C.border,
+        background: C.win,
         transition: isMaximized ? "left 0.2s ease, top 0.2s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease" : "none",
         ...mobileStyle,
         ...maxStyle,
@@ -83,41 +80,41 @@ export function Win({ w, onFront, onToggle, onClose, onMove, onMax, children }: 
       <div
         onMouseDown={onMD}
         onDoubleClick={() => !isMobile && onMax(w.id)}
+        className="flex items-center h-9 px-3 gap-2 border-b flex-shrink-0"
         style={{
-          background: C.winBar, borderBottom: `1px solid ${C.border}`,
-          height: 36, display: "flex", alignItems: "center", padding: "0 12px",
-          gap: 8, cursor: isMobile || isMaximized ? "default" : "grab", flexShrink: 0,
+          background: C.winBar, borderColor: C.border,
+          cursor: isMobile || isMaximized ? "default" : "grab",
         }}
       >
-        <div style={{ display: "flex", gap: 6, marginRight: 4 }}>
+        <div className="flex gap-1.5 mr-1">
           <button
-            className="wb"
+            className="wb w-[13px] h-[13px] rounded-full border-none cursor-pointer p-0"
             onClick={() => onClose(w.id)}
-            style={{ width: 13, height: 13, borderRadius: "50%", background: C.red, border: "none", cursor: "pointer", padding: 0 }}
+            style={{ background: C.red }}
             title="Close"
           />
           <button
-            className="wb"
+            className="wb w-[13px] h-[13px] rounded-full border-none cursor-pointer p-0"
             onClick={() => onToggle(w.id)}
-            style={{ width: 13, height: 13, borderRadius: "50%", background: C.amber, border: "none", cursor: "pointer", padding: 0 }}
+            style={{ background: C.amber }}
             title="Minimize"
           />
           <button
-            className="wb"
+            className="wb w-[13px] h-[13px] rounded-full border-none p-0"
             onClick={() => !isMobile && onMax(w.id)}
-            style={{ width: 13, height: 13, borderRadius: "50%", background: C.green, border: "none", cursor: isMobile ? "default" : "pointer", padding: 0 }}
+            style={{ background: C.green, cursor: isMobile ? "default" : "pointer" }}
             title={isMaximized ? "Restore" : "Maximize"}
           />
         </div>
-        <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: "0.04em", display: "flex", alignItems: "center", gap: 6 }}>
+        <span className="text-[11px] tracking-[0.04em] flex items-center gap-1.5" style={{ fontFamily: MONO, color: C.textDim }}>
           {(() => { const Icon = WINDOW_ICONS[w.id]; return Icon ? <Icon size={12} strokeWidth={1.5} /> : null; })()}
           {w.title}
         </span>
       </div>
-      <div style={{
-        flex: 1, overflow: "auto", position: "relative",
-        backgroundImage: `repeating-linear-gradient(0deg,${C.scanline} 0px,${C.scanline} 1px,transparent 1px,transparent 4px)`,
-      }}>
+      <div
+        className="flex-1 overflow-auto relative"
+        style={{ backgroundImage: `repeating-linear-gradient(0deg,${C.scanline} 0px,${C.scanline} 1px,transparent 1px,transparent 4px)` }}
+      >
         {children}
       </div>
     </div>

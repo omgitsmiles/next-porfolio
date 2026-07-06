@@ -11,15 +11,12 @@ export function Projects() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div style={{
-      fontFamily: MONO, height: "100%", boxSizing: "border-box",
-      display: "flex", flexDirection: "column",
-    }}>
-      <div style={{ flex: 1, overflow: "auto", padding: "12px 14px 0" }}>
-        <div style={{ fontSize: 11, color: C.textFaint, marginBottom: 10 }}>
+    <div className="h-full box-border flex flex-col" style={{ fontFamily: MONO }}>
+      <div className="flex-1 overflow-auto pt-3 px-3.5">
+        <div className="text-[11px] mb-2.5" style={{ color: C.textFaint }}>
           ~/projects — {projectsData.length} items
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+        <div className="grid grid-cols-2 gap-2">
           {projectsData.map((p, i) => {
             const isActive  = active?.title === p.title;
             const isHovered = hovered === i;
@@ -29,42 +26,29 @@ export function Projects() {
                 onClick={() => setActive(isActive ? null : p as ProjectData)}
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
+                className="relative overflow-hidden border rounded py-2.5 px-3 cursor-pointer transition-[border-color,transform,box-shadow] duration-150 ease-in-out min-h-[68px]"
                 style={{
-                  position: "relative", overflow: "hidden",
-                  border: `1px solid ${isActive ? C.amber : isHovered ? C.amberDim : C.border}`,
-                  borderRadius: 4, padding: "10px 12px", cursor: "pointer",
-                  transition: "border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease",
+                  borderColor: isActive ? C.amber : isHovered ? C.amberDim : C.border,
                   transform: isHovered && !isActive ? "translateY(-2px)" : "translateY(0)",
                   boxShadow: isHovered && !isActive ? "0 6px 20px rgba(0,0,0,0.35)" : "none",
-                  minHeight: 68,
                 }}
               >
                 <img
                   src={p.imageUrl.src}
                   alt=""
                   aria-hidden
-                  style={{
-                    position: "absolute", inset: 0,
-                    width: "100%", height: "100%",
-                    objectFit: "cover",
-                    opacity: isActive ? 0.22 : 0.10,
-                    filter: "blur(2px) saturate(0.6)",
-                    transition: "opacity 0.2s ease",
-                    pointerEvents: "none",
-                  }}
+                  className="absolute inset-0 w-full h-full object-cover blur-[2px] saturate-[0.6] transition-opacity duration-200 ease-in-out pointer-events-none"
+                  style={{ opacity: isActive ? 0.22 : 0.10 }}
                 />
-                <div style={{
-                  position: "absolute", inset: 0,
-                  backgroundColor: C.win,
-                  opacity: isActive ? 0.55 : 0.72,
-                  transition: "opacity 0.2s ease",
-                  pointerEvents: "none",
-                }} />
-                <div style={{ position: "relative" }}>
-                  <div style={{ fontSize: 12, color: C.amber, fontWeight: 600, lineHeight: 1.3 }}>
+                <div
+                  className="absolute inset-0 transition-opacity duration-200 ease-in-out pointer-events-none"
+                  style={{ backgroundColor: C.win, opacity: isActive ? 0.55 : 0.72 }}
+                />
+                <div className="relative">
+                  <div className="text-xs font-semibold leading-[1.3]" style={{ color: C.amber }}>
                     {p.title}
                   </div>
-                  <div style={{ fontSize: 10, color: C.textFaint, marginTop: 3 }}>
+                  <div className="text-[10px] mt-[3px]" style={{ color: C.textFaint }}>
                     {p.tags.slice(0, 2).join(" · ")}
                     {p.tags.length > 2 && ` +${p.tags.length - 2}`}
                   </div>
@@ -76,36 +60,36 @@ export function Projects() {
       </div>
 
       {active && (
-        <div style={{
-          borderTop: `1px solid ${C.border}`, padding: "12px 14px",
-          flexShrink: 0, background: C.win,
-        }}>
-          <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 8 }}>
+        <div
+          className="border-t px-3.5 py-3 flex-shrink-0"
+          style={{ borderColor: C.border, background: C.win }}
+        >
+          <div className="flex gap-2.5 items-start mb-2">
             <img
               src={active.imageUrl.src}
               alt={active.title}
-              style={{
-                width: 72, height: 46, objectFit: "cover",
-                borderRadius: 3, border: `1px solid ${C.border}`, flexShrink: 0,
-              }}
+              className="w-[72px] h-[46px] object-cover rounded-[3px] border flex-shrink-0"
+              style={{ borderColor: C.border }}
             />
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 13, color: C.amber, marginBottom: 4 }}>{active.title}</div>
-              <div style={{ fontSize: 11, color: C.textDim, lineHeight: 1.6 }}>{active.description}</div>
+            <div className="min-w-0">
+              <div className="text-[13px] mb-1" style={{ color: C.amber }}>{active.title}</div>
+              <div className="text-[11px] leading-[1.6]" style={{ color: C.textDim }}>{active.description}</div>
             </div>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 8 }}>
+          <div className="flex flex-wrap gap-[5px] mb-2">
             {active.tags.map(s => (
-              <span key={s} style={{
-                fontSize: 10, color: C.green,
-                border: `1px solid ${C.green}33`, borderRadius: 2, padding: "2px 6px",
-              }}>{s}</span>
+              <span
+                key={s}
+                className="text-[10px] rounded-sm px-1.5 py-0.5 border"
+                style={{ color: C.green, borderColor: `${C.green}33` }}
+              >{s}</span>
             ))}
           </div>
           {active.repo && (
             <a
               href={active.repo} target="_blank" rel="noreferrer"
-              style={{ fontSize: 11, color: C.blue, textDecoration: "none" }}
+              className="text-[11px] no-underline"
+              style={{ color: C.blue }}
               onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
               onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
             >

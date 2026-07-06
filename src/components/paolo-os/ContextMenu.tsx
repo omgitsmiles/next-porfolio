@@ -40,42 +40,34 @@ export function ContextMenu({ x, y, theme, onOpen, onSetTheme, onReset, onClose 
     };
   }, [onClose]);
 
-  const itemStyle: React.CSSProperties = {
-    padding: "5px 16px", fontSize: 11, color: C.text,
-    cursor: "pointer", whiteSpace: "nowrap", fontFamily: MONO,
-    display: "flex", alignItems: "center", justifyContent: "space-between",
-  };
+  const itemClass = "flex items-center justify-between px-4 py-[5px] text-[11px] whitespace-nowrap cursor-pointer";
+  const itemFont: React.CSSProperties = { fontFamily: MONO };
 
   const hover = (e: React.MouseEvent<HTMLDivElement>, on: boolean) => {
     e.currentTarget.style.background = on ? `${C.border}cc` : "transparent";
   };
 
   const section = (label: string) => (
-    <div style={{ padding: "4px 16px 2px", fontSize: 9, color: C.textFaint, letterSpacing: "0.1em", fontFamily: MONO }}>
+    <div className="px-4 pt-1 pb-0.5 text-[9px] tracking-[0.1em]" style={{ color: C.textFaint, fontFamily: MONO }}>
       {label}
     </div>
   );
 
-  const sep = () => <div style={{ height: 1, background: C.border, margin: "3px 0" }} />;
+  const sep = () => <div className="h-px my-[3px]" style={{ background: C.border }} />;
 
   return (
     <div
       ref={ref}
-      style={{
-        position: "fixed", left: cx, top: cy, zIndex: 4000,
-        background: C.win, backdropFilter: "blur(20px)",
-        border: `1px solid ${C.border}`, borderRadius: 7,
-        padding: "4px 0", minWidth: 192,
-        boxShadow: "0 16px 48px rgba(0,0,0,0.65)",
-        animation: "dropdown-in 0.12s ease",
-      }}
+      className="fixed z-[4000] backdrop-blur-[20px] rounded-[7px] py-1 min-w-[192px] border shadow-[0_16px_48px_rgba(0,0,0,0.65)] [animation:dropdown-in_0.12s_ease]"
+      style={{ left: cx, top: cy, background: C.win, borderColor: C.border }}
     >
       {section("OPEN WINDOW")}
       {WINDOWS.map(w => (
         <div
           key={w.id}
           onClick={() => { onOpen(w.id); onClose(); }}
-          style={itemStyle}
+          className={itemClass}
+          style={{ ...itemFont, color: C.text }}
           onMouseEnter={e => hover(e, true)}
           onMouseLeave={e => hover(e, false)}
         >
@@ -89,19 +81,21 @@ export function ContextMenu({ x, y, theme, onOpen, onSetTheme, onReset, onClose 
         <div
           key={k}
           onClick={() => { onSetTheme(k); onClose(); }}
-          style={{ ...itemStyle, color: theme === k ? C.amber : C.text }}
+          className={itemClass}
+          style={{ ...itemFont, color: theme === k ? C.amber : C.text }}
           onMouseEnter={e => hover(e, true)}
           onMouseLeave={e => hover(e, false)}
         >
           {THEMES[k].name}
-          {theme === k && <span style={{ fontSize: 9, color: C.amber }}>✓</span>}
+          {theme === k && <span className="text-[9px]" style={{ color: C.amber }}>✓</span>}
         </div>
       ))}
 
       {sep()}
       <div
         onClick={() => { onReset(); onClose(); }}
-        style={{ ...itemStyle, color: C.textDim }}
+        className={itemClass}
+        style={{ ...itemFont, color: C.textDim }}
         onMouseEnter={e => hover(e, true)}
         onMouseLeave={e => hover(e, false)}
       >

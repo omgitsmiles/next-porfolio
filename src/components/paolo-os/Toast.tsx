@@ -11,11 +11,7 @@ type Props = {
 
 export function Toaster({ toasts, onDismiss }: Props) {
   return (
-    <div style={{
-      position: "fixed", top: 36, right: 12, zIndex: 6000,
-      display: "flex", flexDirection: "column", gap: 8,
-      pointerEvents: "none",
-    }}>
+    <div className="fixed top-9 right-3 z-[6000] flex flex-col gap-2 pointer-events-none">
       {toasts.map(t => (
         <ToastCard key={t.id} toast={t} onDismiss={onDismiss} />
       ))}
@@ -34,20 +30,14 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
   return (
     <div
       onClick={() => onDismiss(toast.id)}
-      style={{
-        background: C.winBar, border: `1px solid ${C.border}`,
-        borderRadius: 8, padding: "10px 14px",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.55)",
-        minWidth: 230, maxWidth: 300,
-        pointerEvents: "all", cursor: "pointer",
-        animation: "toast-in 0.22s ease",
-      }}
+      className="border rounded-lg py-2.5 px-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.55)] min-w-[230px] max-w-[300px] pointer-events-auto cursor-pointer animate-[toast-in_0.22s_ease]"
+      style={{ background: C.winBar, borderColor: C.border }}
     >
-      <div style={{ color: C.amber, fontFamily: MONO, fontSize: 12, fontWeight: 600 }}>
+      <div className="text-xs font-semibold" style={{ color: C.amber, fontFamily: MONO }}>
         {toast.title}
       </div>
       {toast.sub && (
-        <div style={{ color: C.textFaint, fontFamily: MONO, fontSize: 10, marginTop: 3 }}>
+        <div className="text-[10px] mt-[3px]" style={{ color: C.textFaint, fontFamily: MONO }}>
           {toast.sub}
         </div>
       )}

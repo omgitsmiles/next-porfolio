@@ -10,7 +10,7 @@ const LINES = [
   "Network services ········ OK",
   "Loading user: paolo ····· OK",
   "Mounting /dev/portfolio · OK",
-  "PaoloOS 3.4.0 ready ······· ✓",
+  "PaoloOS 3.5.0 ready ······· ✓",
 ];
 
 export function Boot({ onDone }: { onDone: () => void }) {
@@ -41,37 +41,36 @@ export function Boot({ onDone }: { onDone: () => void }) {
   }, [onDone]);
 
   return (
-    <div style={{
-      position: "fixed", inset: 0, backgroundColor: "#000", zIndex: 9999,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      fontFamily: MONO,
-      opacity: fading ? 0 : 1,
-      transition: fading ? "opacity 0.48s ease" : "none",
-    }}>
-      <div style={{ color: "#ff9030", fontSize: 20, fontWeight: 700, marginBottom: 28, letterSpacing: "0.12em" }}>
-        ⌘ PaoloOS 3.4.0
+    <div
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black"
+      style={{
+        fontFamily: MONO,
+        opacity: fading ? 0 : 1,
+        transition: fading ? "opacity 0.48s ease" : "none",
+      }}
+    >
+      <div className="text-[#ff9030] text-xl font-bold mb-7 tracking-[0.12em]">
+        ⌘ PaoloOS 3.5.0
       </div>
 
-      <div style={{ width: 300, marginBottom: 20 }}>
-        <div style={{ height: 2, background: "#1a1a1a", borderRadius: 2 }}>
-          <div style={{
-            height: "100%", background: "#ff9030", borderRadius: 2,
-            width: `${progress}%`, transition: "width 0.15s ease",
-          }} />
+      <div className="w-[300px] mb-5">
+        <div className="h-0.5 bg-[#1a1a1a] rounded-sm">
+          <div
+            className="h-full bg-[#ff9030] rounded-sm transition-[width] duration-150 ease"
+            style={{ width: `${progress}%` }}
+          />
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
-          <span style={{ fontSize: 9, color: "#444", fontFamily: MONO }}>{progress}%</span>
+        <div className="flex justify-end mt-1">
+          <span className="text-[9px] text-[#444]" style={{ fontFamily: MONO }}>{progress}%</span>
         </div>
       </div>
 
-      <div style={{ width: 300, fontSize: 10, lineHeight: 2.1 }}>
+      <div className="w-[300px] text-[10px] leading-[2.1]">
         {lines.map((l, i) => (
           <div
             key={i}
-            style={{
-              color: i === lines.length - 1 ? "#666" : "#333",
-              animation: "fade-in 0.15s ease",
-            }}
+            className="animate-[fade-in_0.15s_ease]"
+            style={{ color: i === lines.length - 1 ? "#666" : "#333" }}
           >
             {l}
           </div>
